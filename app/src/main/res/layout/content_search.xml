@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/content_search_layout">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true">
+
+        <!-- Center circle line | Should calc pt to dp to follow zeplin guide -->
+        <!-- TODO -->
+        <View
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:background="@drawable/center_circle">
+        </View>
+
+        <com.febaisi.moviesearch.component.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_movie"
+            android:layout_marginTop="24dp"
+            android:textSize="24sp"
+            android:textColor="@color/black87"
+            android:fontFamily="Roboto-Regular"
+            app:typeface="Roboto-Regular.ttf"/> <!-- Following zeplin guide | (app:typeface) Native Roboto-Regular may not work for some android versions - Preload by asset-->
+
+        <com.febaisi.moviesearch.component.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_movie_description1"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black54"
+            android:fontFamily="Roboto-Regular"
+            app:typeface="Roboto-Regular.ttf"/>
+
+        <com.febaisi.moviesearch.component.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_movie_description2"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:textColor="@color/black54"
+            android:fontFamily="Roboto-Regular"
+            app:typeface="Roboto-Regular.ttf"/>
+    </LinearLayout>
+
+</RelativeLayout>

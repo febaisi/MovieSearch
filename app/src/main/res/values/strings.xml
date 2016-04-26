@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MovieSearch</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_movie">Search a movie</string>
+    <string name="search_movie_description1">To search a movie</string>
+    <string name="search_movie_description2">you should type on search field</string>
+
+</resources>
