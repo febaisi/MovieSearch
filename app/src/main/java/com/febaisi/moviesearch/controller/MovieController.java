@@ -11,69 +11,89 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.VolleyApplication;
+import com.febaisi.moviesearch.component.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by felipebaisi on 4/27/16.
  */
-public class MovieController {
+public class MovieController implements  Response.ErrorListener, Response.Listener {
+
+    //Implement interface
+    private Searchable mSearchable;
+
+
+    public interface Searchable {
+        void notifyAdapter(Cursor cursor);
+    }
 
     public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
     public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
     private Context mContext;
-
-    //Implement interface
-    private Searchable mSearchable;
-    public interface Searchable {
-        void notifyAdapter(Cursor cursor);
-    }
 
     public MovieController (Context context, Searchable searchable){
         this.mContext = context;
         this.mSearchable = searchable;
     }
 
-    public void retrieveData(String query) {
-        String url = "http://www.omdbapi.com/?s=" + query;
+    public void retrieveSuggestionSearch(String titleQuery) {
+        String url = "http://www.omdbapi.com/?s=" + titleQuery;
 
-        JsonObjectRequest request = new JsonObjectRequest(url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        MatrixCursor matrixCursor = new MatrixCursor(COLUMS);
-                        try {
-                            JSONArray searchArray = response.getJSONArray("Search");
-                            for(int i = 0; i<searchArray.length(); i++){
-                                matrixCursor.addRow(new String[]{Integer.toString(i),
-                                        searchArray.getJSONObject(i).getString(COLUMS[1])});
-                            }
-                        } catch (JSONException e) {
-                            Log.e(mContext.getResources().getString(R.string.app_name), e.toString());
-                        }
-
-                        if (mSearchable != null) {
-                            mSearchable.notifyAdapter(matrixCursor);
-                        }
-
-                    }
-                },
-
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(mContext.getResources().getString(R.string.app_name), error.toString());
-                    }
-                }
-        );
-
+        JsonObjectRequest request = new JsonObjectRequest(url, null, this, this);
         request.setTag(JSON_REQUEST_TAG);
         VolleyApplication.getInstance().getRequestQueue().cancelAll(JSON_REQUEST_TAG);
         VolleyApplication.getInstance().getRequestQueue().add(request);
-
-
     }
+
+
+    private Movie parseJson(JSONObject jsonObject) throws JSONException {
+        Movie movie = new Movie();
+        movie.setTitle(jsonObject.getString(Movie.TITLE));
+        movie.setYear(jsonObject.getString(Movie.YEAR));
+        movie.setImdbID(jsonObject.getString(Movie.IMDB_ID));
+        movie.setType(jsonObject.getString(Movie.TYPE));
+        movie.setPoster(jsonObject.getString(Movie.POSTER));
+
+        return movie;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Log.e(mContext.getResources().getString(R.string.app_name), error.toString());
+    }
+
+    @Override
+    public void onResponse(Object objResponse) {
+        List<Movie> moviesList = new ArrayList<>();
+        JSONObject response =  (JSONObject) objResponse;
+        try {
+            JSONArray searchArray = response.getJSONArray("Search");
+            for(int i = 0; i<searchArray.length(); i++){
+                moviesList.add(parseJson(searchArray.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            Log.e(mContext.getResources().getString(R.string.app_name), e.toString());
+        }
+
+        if (mSearchable != null) {
+            mSearchable.notifyAdapter(createSuggestionCursor(moviesList));
+        }
+    }
+
+    private Cursor createSuggestionCursor(List<Movie> moviesList) {
+        MatrixCursor matrixCursor = new MatrixCursor(COLUMS);
+        int i = 0;
+        for(Movie currentMovie : moviesList) {
+            matrixCursor.addRow(new String[]{Integer.toString(i), currentMovie.getTitle()});
+        }
+
+        return matrixCursor;
+    }
+
 }
