@@ -26,6 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
@@ -117,17 +119,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (query.length() > 2) {
-            loadData(query);
-        }
-        return true;
+        return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.length() > 2) {
-            loadData(newText);
-        }
+        loadData(newText);
         return true;
     }
 
@@ -151,14 +148,21 @@ public class MainActivity extends AppCompatActivity
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("Baisi", "responde");
-                        String[] columns = new String[]{BaseColumns._ID, "Title"};
-                        MatrixCursor cursor = new MatrixCursor(columns);
-                        cursor.addRow(new String[]{"1", "Murica"});
-                        cursor.addRow(new String[]{"2", "Canada"});
-                        cursor.addRow(new String[]{"3", "Denmark"});
-                        searchAdapter.changeCursor(cursor);
-                        //mTextView.setText(response.toString());
+                        MatrixCursor matrixCursor = new MatrixCursor(COLUMS);
+                        try {
+                            Log.i("Baisi", "responde");
+                            JSONArray searchArray = response.getJSONArray("Search");
+                            //null trigger exception
+                            for(int i = 0; i<searchArray.length(); i++){
+                                matrixCursor.addRow(new String[]{Integer.toString(i), searchArray.getJSONObject(i).getString("Title")});
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        searchAdapter.changeCursor(matrixCursor);
+
+
                     }
                 },
 
