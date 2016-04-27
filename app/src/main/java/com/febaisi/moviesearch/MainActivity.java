@@ -1,5 +1,6 @@
 package com.febaisi.moviesearch;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -19,15 +20,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.febaisi.moviesearch.controller.MovieController;
+import com.febaisi.moviesearch.uicontent.ResultContentFragment;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener,
-        MovieController.Searchable {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        SearchView.OnQueryTextListener, MovieController.Searchable {
 
-    SimpleCursorAdapter searchAdapter;
-    MovieController movieController;
-
+    private SimpleCursorAdapter searchAdapter;
+    private MovieController movieController;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +47,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Creating suggestion search adapter
+        searchAdapter = new SimpleCursorAdapter(this, R.layout.search_suggestion_row, null, new String[]{"Title"},
+                new int[]{R.id.suggestion_title}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
+        //Create 'Searchable' class listener in MovieController
+        movieController = new MovieController(this, this);
 
         //Present first fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        SearchContentFragment fragment = new SearchContentFragment();
-        fragmentTransaction.add(R.id.content_main_layout, fragment);
-        fragmentTransaction.commit();
-
-        searchAdapter = new SimpleCursorAdapter(this, R.layout.search_suggestion_row, null, new String[]{"Title"}, new int[]{R.id.suggestion_title}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        movieController = new MovieController(this, this);
+        replaceTopFragment(new SearchContentFragment());
     }
 
     @Override
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity
 
         //Set Search Interface
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(this);
         searchView.setSuggestionsAdapter(searchAdapter);
@@ -93,7 +94,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        searchView.clearFocus();
+        replaceTopFragment(new ResultContentFragment());
+        return true;
     }
 
     @Override
@@ -106,4 +109,12 @@ public class MainActivity extends AppCompatActivity
     public void notifyAdapter(Cursor cursor) {
         searchAdapter.changeCursor(cursor);
     }
+
+    private void replaceTopFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_main_layout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 }
