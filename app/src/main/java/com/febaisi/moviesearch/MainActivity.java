@@ -113,8 +113,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mSearchView.clearFocus();
-        replaceTopFragment(new ResultContentFragment());
+        Bundle bundle = new Bundle();
+        bundle.putString(ResultContentFragment.QUERY, query);
+        ResultContentFragment resultContentFragment = new ResultContentFragment();
+        resultContentFragment.setArguments(bundle);
+        replaceTopFragment(resultContentFragment);
         return true;
     }
 

@@ -14,9 +14,17 @@ import com.febaisi.moviesearch.R;
  */
 public class ResultContentFragment extends Fragment {
 
+    public static String QUERY = "QUERY";
+    private String mTitleQuery;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mTitleQuery = bundle.getString(QUERY);
+        }
+
         return inflater.inflate(R.layout.content_card_result, container, false);
     }
 
