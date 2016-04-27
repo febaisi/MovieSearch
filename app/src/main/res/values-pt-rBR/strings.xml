@@ -6,5 +6,6 @@
     <string name="search_movie">Busque um filme</string>
     <string name="search_movie_description1">Para buscar um filme é simples, basta</string>
     <string name="search_movie_description2">digitar o título no campo de busca.</string>
+    <string name="search_hint"> Buscar</string>
 
 </resources>

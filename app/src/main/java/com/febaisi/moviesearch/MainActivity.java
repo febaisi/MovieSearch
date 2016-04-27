@@ -5,23 +5,36 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.febaisi.moviesearch.component.CustomSearchView;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener,
+        SearchView.OnSuggestionListener {
+
+    public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
+    public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
+    SimpleCursorAdapter searchAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +68,13 @@ public class MainActivity extends AppCompatActivity
             //doMySearch(query);
         }
 
+        searchAdapter = new SimpleCursorAdapter(this,
+                R.layout.search_suggestion_row,
+                null,
+                new String[]{"Title"},
+                new int[]{R.id.suggestion_title},
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
     }
 
     @Override
@@ -76,49 +96,85 @@ public class MainActivity extends AppCompatActivity
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnSuggestionListener(this);
+
+
+        searchView.setSuggestionsAdapter(searchAdapter);
 
 
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (query.length() > 2) {
+            loadData(query);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.length() > 2) {
+            loadData(newText);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        return false;
+    }
+
+    private void loadData(String query) {
+
+        String url = "http://www.omdbapi.com/?s=" + query;
+
+        Log.i("Baisi", "responde para " + url );
+        JsonObjectRequest request = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("Baisi", "responde");
+                        String[] columns = new String[]{BaseColumns._ID, "Title"};
+                        MatrixCursor cursor = new MatrixCursor(columns);
+                        cursor.addRow(new String[]{"1", "Murica"});
+                        cursor.addRow(new String[]{"2", "Canada"});
+                        cursor.addRow(new String[]{"3", "Denmark"});
+                        searchAdapter.changeCursor(cursor);
+                        //mTextView.setText(response.toString());
+                    }
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //mTextView.setText(error.toString());
+                    }
+                }
+        );
+
+        request.setTag(JSON_REQUEST_TAG);
+        VolleyApplication.getInstance().getRequestQueue().cancelAll(JSON_REQUEST_TAG);
+        VolleyApplication.getInstance().getRequestQueue().add(request);
+
+
     }
 }

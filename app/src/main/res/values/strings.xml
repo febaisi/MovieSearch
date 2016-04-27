@@ -7,5 +7,5 @@
     <string name="search_movie">Search a movie</string>
     <string name="search_movie_description1">To search a movie</string>
     <string name="search_movie_description2">you should type on search field</string>
-
+    <string name="search_hint"> Search</string>
 </resources>
