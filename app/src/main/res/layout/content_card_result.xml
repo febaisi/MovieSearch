@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:clipChildren="false"
     android:id="@+id/content_search_layout">
 
-        <com.github.rahatarmanahmed.cpv.CircularProgressView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/progress_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cpv_animAutostart="true"
-            app:cpv_indeterminate="true"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_result"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
-</LinearLayout>
+</FrameLayout>
