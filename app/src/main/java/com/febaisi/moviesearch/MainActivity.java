@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity
         ResultContentFragment resultContentFragment = new ResultContentFragment();
         resultContentFragment.setArguments(bundle);
         replaceTopFragment(resultContentFragment);
+        mSearchView.clearFocus();
         return true;
     }
 
