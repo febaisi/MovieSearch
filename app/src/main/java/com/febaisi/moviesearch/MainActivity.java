@@ -5,9 +5,8 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.MatrixCursor;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.CursorAdapter;
@@ -17,26 +16,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.febaisi.moviesearch.controller.MovieController;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener,
-        SearchView.OnSuggestionListener {
+        MovieController.Searchable {
 
-    public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
-    public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
     SimpleCursorAdapter searchAdapter;
+    MovieController movieController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,21 +54,8 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.add(R.id.content_main_layout, fragment);
         fragmentTransaction.commit();
 
-        //Filter search by now
-        // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //doMySearch(query);
-        }
-
-        searchAdapter = new SimpleCursorAdapter(this,
-                R.layout.search_suggestion_row,
-                null,
-                new String[]{"Title"},
-                new int[]{R.id.suggestion_title},
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-
+        searchAdapter = new SimpleCursorAdapter(this, R.layout.search_suggestion_row, null, new String[]{"Title"}, new int[]{R.id.suggestion_title}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        movieController = new MovieController(this, this);
     }
 
     @Override
@@ -99,11 +78,7 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
-
-
         searchView.setSuggestionsAdapter(searchAdapter);
-
 
         return true;
     }
@@ -124,61 +99,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        loadData(newText);
+        movieController.retrieveData(newText);
         return true;
     }
 
     @Override
-    public boolean onSuggestionSelect(int position) {
-        return false;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int position) {
-        return false;
-    }
-
-    private void loadData(String query) {
-
-        String url = "http://www.omdbapi.com/?s=" + query;
-
-        Log.i("Baisi", "responde para " + url );
-        JsonObjectRequest request = new JsonObjectRequest(url, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        MatrixCursor matrixCursor = new MatrixCursor(COLUMS);
-                        try {
-                            Log.i("Baisi", "responde");
-                            JSONArray searchArray = response.getJSONArray("Search");
-                            //null trigger exception
-                            for(int i = 0; i<searchArray.length(); i++){
-                                matrixCursor.addRow(new String[]{Integer.toString(i), searchArray.getJSONObject(i).getString("Title")});
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        searchAdapter.changeCursor(matrixCursor);
-
-
-                    }
-                },
-
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //mTextView.setText(error.toString());
-                    }
-                }
-        );
-
-        request.setTag(JSON_REQUEST_TAG);
-        VolleyApplication.getInstance().getRequestQueue().cancelAll(JSON_REQUEST_TAG);
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-
-
+    public void notifyAdapter(Cursor cursor) {
+        searchAdapter.changeCursor(cursor);
     }
 }
