@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -27,9 +28,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchView.OnQueryTextListener, MovieController.Searchable {
 
-    private SimpleCursorAdapter searchAdapter;
-    private MovieController movieController;
-    private SearchView searchView;
+    private SimpleCursorAdapter mSearchAdapter;
+    private MovieController mMovieController;
+    private FragmentManager mFragmentManager;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Creating suggestion search adapter
-        searchAdapter = new SimpleCursorAdapter(this, R.layout.search_suggestion_row, null, new String[]{"Title"},
+        mSearchAdapter = new SimpleCursorAdapter(this, R.layout.search_suggestion_row, null, new String[]{"Title"},
                 new int[]{R.id.suggestion_title}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         //Create 'Searchable' class listener in MovieController
-        movieController = new MovieController(this, this);
+        mMovieController = new MovieController(this, this);
 
         //Present first fragment
+        mFragmentManager = getFragmentManager();
         replaceTopFragment(new SearchContentFragment());
     }
 
@@ -75,10 +78,26 @@ public class MainActivity extends AppCompatActivity
 
         //Set Search Interface
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(this);
-        searchView.setSuggestionsAdapter(searchAdapter);
+        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setSuggestionsAdapter(mSearchAdapter);
+
+        //handle toolbar back buttons
+        MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.action_search),
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                        return true;
+                    }
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                        if (mFragmentManager.getBackStackEntryCount() > 1) {
+                            getFragmentManager().popBackStack();
+                        }
+                        return true;
+                    }
+                });
 
         return true;
     }
@@ -94,24 +113,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        searchView.clearFocus();
+        mSearchView.clearFocus();
         replaceTopFragment(new ResultContentFragment());
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        movieController.retrieveSuggestionSearch(newText);
+        mMovieController.retrieveSuggestionSearch(newText);
         return true;
     }
 
     @Override
     public void notifyAdapter(Cursor cursor) {
-        searchAdapter.changeCursor(cursor);
+        mSearchAdapter.changeCursor(cursor);
     }
 
     private void replaceTopFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_main_layout, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
