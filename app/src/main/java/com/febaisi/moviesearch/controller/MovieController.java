@@ -27,7 +27,11 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
 
     public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
     public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
-    private Context mContext;
+    public Context mContext;
+
+    public MovieController (Context context){
+        this.mContext = context;
+    }
 
 
     //Implement interface
@@ -35,28 +39,24 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
     public interface Searchable {
         void notifyAdapter(Cursor cursor);
     }
-
-    private ResultSearchListener mResultSearchListener;
-    public interface ResultSearchListener {
-        void onMovieListResult(List<Movie> moviesList);
-    }
-
-
-    public MovieController (Context context, Searchable searchable){
-        this.mContext = context;
+    public void setSearchableListener(Searchable searchable) {
         this.mSearchable = searchable;
     }
 
-    public MovieController (Context context, ResultSearchListener resultSearchListener) {
-        this.mContext = context;
-        this.mResultSearchListener = resultSearchListener;
+    private ResultMovieTitleSearchListener mResultMovieTitleSearchListener;
+    public interface ResultMovieTitleSearchListener {
+        void onMovieListResult(List<Movie> moviesList);
+    }
+    public void setOnMovieListResult(ResultMovieTitleSearchListener resultMovieTitleSearchListener) {
+        this.mResultMovieTitleSearchListener = resultMovieTitleSearchListener;
     }
 
 
-
     public void retrieveTitleSearch(String titleQuery) {
-        String url = "http://www.omdbapi.com/?s=" + titleQuery;
+        retrieveUrl("http://www.omdbapi.com/?s=" + titleQuery);
+    }
 
+    public void retrieveUrl(String url) {
         JsonObjectRequest request = new JsonObjectRequest(url, null, this, this);
         request.setTag(JSON_REQUEST_TAG);
         VolleyApplication.getInstance().getRequestQueue().cancelAll(JSON_REQUEST_TAG);
@@ -64,7 +64,7 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
     }
 
 
-    private Movie parseJson(JSONObject jsonObject) throws JSONException {
+    private Movie parseJsonMovie(JSONObject jsonObject) throws JSONException {
         Movie movie = new Movie();
         movie.setTitle(jsonObject.getString(Movie.TITLE));
         movie.setYear(jsonObject.getString(Movie.YEAR));
@@ -87,7 +87,7 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
         try {
             JSONArray searchArray = response.getJSONArray("Search");
             for(int i = 0; i<searchArray.length(); i++){
-                moviesList.add(parseJson(searchArray.getJSONObject(i)));
+                moviesList.add(parseJsonMovie(searchArray.getJSONObject(i)));
             }
         } catch (JSONException e) {
             Log.e(mContext.getResources().getString(R.string.app_name), e.toString());
@@ -96,9 +96,9 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
         if (mSearchable != null) {
             mSearchable.notifyAdapter(createSuggestionCursor(moviesList));
         }
-        if (mResultSearchListener != null) {
+        if (mResultMovieTitleSearchListener != null) {
 
-            mResultSearchListener.onMovieListResult(moviesList);
+            mResultMovieTitleSearchListener.onMovieListResult(moviesList);
         }
     }
 

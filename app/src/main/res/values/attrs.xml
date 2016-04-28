@@ -3,7 +3,5 @@
         <!-- So far, we only want to customize textview typeface -->
         <!-- Add your new customizations items for textview here -->
         <attr name="typeface" format="string" />
-        <attr name="imdbid" format="string"/>
-        <attr name="plot" format="boolean"/>
     </declare-styleable>
 </resources>

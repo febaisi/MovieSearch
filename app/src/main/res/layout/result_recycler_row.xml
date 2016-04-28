@@ -7,7 +7,8 @@
     android:layout_marginStart="15dp"
     android:clipChildren="false">
 
-    <android.support.v7.widget.CardView
+    <com.febaisi.moviesearch.component.CustomCardView
+        android:id="@+id/cardView"
         card_view:cardUseCompatPadding="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -39,6 +40,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </com.febaisi.moviesearch.component.CustomCardView>
 
 </RelativeLayout>

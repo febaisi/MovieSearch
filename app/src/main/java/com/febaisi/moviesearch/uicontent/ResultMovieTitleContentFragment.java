@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by felipe.baisi on 4/27/2016.
  */
-public class ResultContentFragment extends Fragment implements MovieController.ResultSearchListener {
+public class ResultMovieTitleContentFragment extends Fragment implements MovieController.ResultMovieTitleSearchListener {
 
     public static String QUERY = "QUERY";
     private String mTitleQuery;
@@ -55,7 +55,8 @@ public class ResultContentFragment extends Fragment implements MovieController.R
         mSearchResultAdapter = new SearchResultAdapter(mMovieList);
         mRecyclerView.setAdapter(mSearchResultAdapter);
 
-        mMovieController = new MovieController(view.getContext(), this);
+        mMovieController = new MovieController(view.getContext());
+        mMovieController.setOnMovieListResult(this);
         mMovieController.retrieveTitleSearch(mTitleQuery);
 
     }

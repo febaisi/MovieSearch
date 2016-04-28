@@ -1,5 +1,6 @@
 package com.febaisi.moviesearch.adapter;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
+import com.febaisi.moviesearch.component.CustomCardView;
 import com.febaisi.moviesearch.model.Movie;
 
 import java.util.List;
@@ -19,9 +21,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
+        public CustomCardView mCustomCardView;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.movie_title);
+            mCustomCardView = (CustomCardView) v.findViewById(R.id.cardView);
         }
     }
 
@@ -40,6 +44,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mTextView.setText(mMoviesList.get(position).getTitle());
+        holder.mCustomCardView.setmImdbId(mMoviesList.get(position).getImdbID());
     }
 
     public int getItemCount() {
