@@ -6,12 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.controller.MovieInfoController;
 import com.febaisi.moviesearch.model.MovieInfo;
+import com.joooonho.SelectableRoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -27,11 +30,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public CustomTextView mTitleTextView;
         public CardView mCustomCardView;
         public TextView mPlotTextView;
+        public SelectableRoundedImageView mSelectableRoundedImageView;
         public ViewHolder(View v) {
             super(v);
             mTitleTextView = (CustomTextView) v.findViewById(R.id.movie_title);
             mPlotTextView = (TextView) v.findViewById(R.id.movie_plot);
             mCustomCardView = (CardView) v.findViewById(R.id.cardView);
+            mSelectableRoundedImageView = (SelectableRoundedImageView) v.findViewById(R.id.movie_poster);
         }
     }
 
@@ -57,6 +62,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             plot = plot.substring(0,80) + "...";
         }
         holder.mPlotTextView.setText(plot);
+
+        Picasso.with(mContext).load(mMoviesInfoList.get(position).getPoster()).into(holder.mSelectableRoundedImageView);
     }
 
     public int getItemCount() {
