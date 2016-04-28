@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomCardView;
+import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.model.Movie;
 
 import java.util.List;
@@ -20,11 +21,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private List<Movie> mMoviesList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        public CustomTextView mTextView;
         public CustomCardView mCustomCardView;
         public ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.movie_title);
+            mTextView = (CustomTextView) v.findViewById(R.id.movie_title);
             mCustomCardView = (CustomCardView) v.findViewById(R.id.cardView);
         }
     }
@@ -43,6 +44,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mTextView.setText(mMoviesList.get(position).getTitle());
         holder.mCustomCardView.setmImdbId(mMoviesList.get(position).getImdbID());
+        holder.mCustomCardView.setPreventCornerOverlap(false);
     }
 
     public int getItemCount() {

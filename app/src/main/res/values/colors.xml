@@ -7,4 +7,5 @@
     <color name="black87">#D9000000</color> <!-- Following zeplin RGBA -> 0 0 0 0.87 -->
     <color name="black54">#8C000000</color> <!-- Following zeplin RGBA ->  0 0 0 0.54 -->
     <color name="brownishGrey">#626262</color> <!-- Following zeplin RGB ->  98 98 98 -->
+    <color name="gray_light">#80D5D5D5</color>
 </resources>
