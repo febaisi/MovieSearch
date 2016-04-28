@@ -10,30 +10,30 @@ import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.controller.MovieInfoController;
+import com.febaisi.moviesearch.model.MovieInfo;
 
 /**
  * Created by felipebaisi on 4/28/16.
  */
-public class CustomCardView extends CardView  {
+public class CustomCardView extends CardView implements MovieInfoController.ResultMovieInfoSearchListener {
 
     private MovieInfoController mMovieInfoController;
     private String mImdbId;
-    //public String getmImdbId() { return mImdbId; }
-    public void setmImdbId(String mImdbId) {
-        this.mImdbId = mImdbId;
-         mMovieInfoController.retrieveMovieInfo(mImdbId);
-    }
 
     public CustomCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mMovieInfoController = new MovieInfoController(context);
+        mMovieInfoController.setResultMovieInfoSearchListener(this);
+    }
+
+    public void setmImdbId(String mImdbId) {
+        this.mImdbId = mImdbId;
+        mMovieInfoController.retrieveMovieInfo(mImdbId);
     }
 
     @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        TextView textView = (TextView) findViewById(R.id.movie_plot);
-        textView.setText("Ae oe");
-
+    public void onMovieInfoResult(MovieInfo movieInfo) {
+        TextView plotTextView = (TextView) findViewById(R.id.movie_plot);
+        plotTextView.setText(movieInfo.getPlot());
     }
 }
