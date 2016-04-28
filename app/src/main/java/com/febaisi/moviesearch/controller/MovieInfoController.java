@@ -28,7 +28,7 @@ public class MovieInfoController extends MovieController {
     }
 
     public void retrieveMovieInfo(String imdbId) {
-        retrieveUrl("http://www.omdbapi.com/?i=" + imdbId);
+        retrieveUrl("http://www.omdbapi.com/?i=" + imdbId, false);
     }
 
     @Override

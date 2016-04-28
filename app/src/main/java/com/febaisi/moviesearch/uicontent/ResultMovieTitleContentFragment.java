@@ -13,6 +13,8 @@ import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.adapter.SearchResultAdapter;
 import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.controller.MovieController;
+import com.febaisi.moviesearch.model.MovieInfo;
+import com.febaisi.moviesearch.util.MovieUtil;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class ResultMovieTitleContentFragment extends Fragment implements MovieCo
     private MovieController mMovieController;
     private CircularProgressView mCircularProgressView;
     private RecyclerView mRecyclerView;
-    private List<Movie>  mMovieList;
+    private List<MovieInfo>  mMoviesInfoList;
     private SearchResultAdapter mSearchResultAdapter;
 
     @Nullable
@@ -51,8 +53,8 @@ public class ResultMovieTitleContentFragment extends Fragment implements MovieCo
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        mMovieList = new ArrayList<>();
-        mSearchResultAdapter = new SearchResultAdapter(mMovieList);
+        mMoviesInfoList = new ArrayList<>();
+        mSearchResultAdapter = new SearchResultAdapter(mMoviesInfoList);
         mRecyclerView.setAdapter(mSearchResultAdapter);
 
         mMovieController = new MovieController(view.getContext());
@@ -63,10 +65,10 @@ public class ResultMovieTitleContentFragment extends Fragment implements MovieCo
 
     @Override
     public void onMovieListResult(List<Movie> moviesList) {
-        mSearchResultAdapter.updateDataSet(moviesList);
+        mMoviesInfoList = MovieUtil.createMovieInfoList(moviesList);
+        mSearchResultAdapter.updateDataSet(mMoviesInfoList);
         mSearchResultAdapter.notifyDataSetChanged();
         mCircularProgressView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
-
     }
 }

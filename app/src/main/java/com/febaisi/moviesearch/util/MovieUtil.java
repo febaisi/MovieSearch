@@ -10,6 +10,7 @@ import com.febaisi.moviesearch.model.MovieInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +62,20 @@ public class MovieUtil {
         movieInfo.setResponse(jsonObject.getString(MovieInfo.RESPONSE));
 
         return movieInfo;
+    }
+
+    public static List<MovieInfo> createMovieInfoList(List<Movie> moviesList) {
+        List<MovieInfo> moviesInfoList = new ArrayList<>();
+        for (Movie movie : moviesList) {
+            MovieInfo movieInfo = new MovieInfo();
+            movieInfo.setTitle(movie.getTitle());
+            movieInfo.setType(movie.getType());
+            movieInfo.setImdbID(movie.getImdbID());
+            movieInfo.setPoster(movie.getPoster());
+            movieInfo.setYear(movie.getYear());
+            moviesInfoList.add(movieInfo);
+        }
+        return moviesInfoList;
     }
 
 }

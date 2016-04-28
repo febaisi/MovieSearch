@@ -27,7 +27,7 @@ import java.util.List;
 public class MovieController implements  Response.ErrorListener, Response.Listener {
 
     public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
-    public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
+    public static String JSON_REQUEST_TAG = "CANCELABLE_JSON_REQUEST_TAG";
     public Context mContext;
 
     public MovieController (Context context){
@@ -53,13 +53,15 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
     }
 
     public void retrieveTitleSearch(String titleQuery) {
-        retrieveUrl("http://www.omdbapi.com/?s=" + titleQuery);
+        retrieveUrl("http://www.omdbapi.com/?s=" + titleQuery, true);
     }
 
-    public void retrieveUrl(String url) {
+    public void retrieveUrl(String url, boolean cancelable) {
         JsonObjectRequest request = new JsonObjectRequest(url, null, this, this);
         request.setTag(JSON_REQUEST_TAG);
-        VolleyApplication.getInstance().getRequestQueue().cancelAll(JSON_REQUEST_TAG);
+        if (cancelable) {
+            VolleyApplication.getInstance().getRequestQueue().cancelAll(JSON_REQUEST_TAG);
+        }
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
