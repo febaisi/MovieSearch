@@ -58,8 +58,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.mCustomCardView.setPreventCornerOverlap(false);
 
         String plot = mMoviesInfoList.get(position).getPlot();
-        if (plot != null && plot.length() > 74) {
-            plot = plot.substring(0,80) + "...";
+        if (plot != null && plot.length() > 120) {
+            plot = plot.substring(0,120) + "...";
         }
         holder.mPlotTextView.setText(plot);
 
