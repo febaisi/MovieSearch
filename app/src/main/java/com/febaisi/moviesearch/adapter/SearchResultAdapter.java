@@ -29,8 +29,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         }
     }
 
-
-
     public SearchResultAdapter(List<Movie> listMovies) {
         this.mMoviesList = listMovies;
     }

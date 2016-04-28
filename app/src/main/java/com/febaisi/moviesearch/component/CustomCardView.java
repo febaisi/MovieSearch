@@ -38,6 +38,7 @@ public class CustomCardView extends CardView implements MovieInfoController.Resu
         if (moviePlot.length() > 74) {
             moviePlot = moviePlot.substring(0,74) + "...";
         }
-        plotTextView.setText(moviePlot);
+        plotTextView.setText(moviePlot); //follow zeplin guide
+        Log.i("Baisi", "Baisi " + moviePlot);
     }
 }
