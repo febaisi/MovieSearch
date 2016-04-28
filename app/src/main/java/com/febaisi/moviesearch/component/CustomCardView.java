@@ -34,6 +34,10 @@ public class CustomCardView extends CardView implements MovieInfoController.Resu
     @Override
     public void onMovieInfoResult(MovieInfo movieInfo) {
         TextView plotTextView = (TextView) findViewById(R.id.movie_plot);
-        plotTextView.setText(movieInfo.getPlot());
+        String moviePlot = movieInfo.getPlot();
+        if (moviePlot.length() > 74) {
+            moviePlot = moviePlot.substring(0,74) + "...";
+        }
+        plotTextView.setText(moviePlot);
     }
 }
