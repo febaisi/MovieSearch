@@ -13,9 +13,18 @@ import org.json.JSONObject;
  */
 public class MovieInfoController extends MovieController {
 
-
     public MovieInfoController(Context context) {
         super(context);
+    }
+
+
+    // Request movie info interface
+    private ResultMovieInfoSearchListener mResultMovieInfoSearchListener;
+    public interface ResultMovieInfoSearchListener {
+        void onMovieInfoResult(MovieInfo movieInfo);
+    }
+    public void setResultMovieInfoSearchListener(ResultMovieInfoSearchListener resultMovieInfoSearchListener) {
+        this.mResultMovieInfoSearchListener = resultMovieInfoSearchListener;
     }
 
     public void retrieveMovieInfo(String imdbId) {
@@ -28,6 +37,9 @@ public class MovieInfoController extends MovieController {
         try {
             JSONObject jsonObject = (JSONObject) objResponse;
             MovieInfo movieInfo = parseJsonMovieInfo(jsonObject);
+            if (mResultMovieInfoSearchListener != null) {
+                mResultMovieInfoSearchListener.onMovieInfoResult(movieInfo);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
