@@ -32,9 +32,10 @@
 
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:id="@+id/movie_plot"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Content here" />
+                android:text="" />
 
         </LinearLayout>
 

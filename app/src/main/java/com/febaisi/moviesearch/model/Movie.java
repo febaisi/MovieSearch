@@ -1,4 +1,4 @@
-package com.febaisi.moviesearch.component;
+package com.febaisi.moviesearch.model;
 
 /**
  * Created by felipebaisi on 4/27/16.

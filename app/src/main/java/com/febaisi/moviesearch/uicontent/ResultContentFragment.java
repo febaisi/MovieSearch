@@ -11,16 +11,25 @@ import android.view.ViewGroup;
 
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.adapter.SearchResultAdapter;
+import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.controller.MovieController;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by felipe.baisi on 4/27/2016.
  */
-public class ResultContentFragment extends Fragment {
+public class ResultContentFragment extends Fragment implements MovieController.ResultSearchListener {
 
     public static String QUERY = "QUERY";
     private String mTitleQuery;
-    private MovieController movieController;
+    private MovieController mMovieController;
+    private CircularProgressView mCircularProgressView;
+    private RecyclerView mRecyclerView;
+    private List<Movie>  mMovieList;
+    private SearchResultAdapter mSearchResultAdapter;
 
     @Nullable
     @Override
@@ -36,10 +45,27 @@ public class ResultContentFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_result);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //SearchResultAdapter adapter = new SearchResultAdapter(new String[]{"fef111o", "fef2o2", "fefo3", "fefo4", "fefo2", "fefo3", "fefo4", "fefo2", "fefo3", "fefo4"} );
-        //recyclerView.setAdapter(adapter);
+        mCircularProgressView = (CircularProgressView) view.findViewById(R.id.search_progress_view);
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_result);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        mMovieList = new ArrayList<>();
+        mSearchResultAdapter = new SearchResultAdapter(mMovieList);
+        mRecyclerView.setAdapter(mSearchResultAdapter);
+
+        mMovieController = new MovieController(view.getContext(), this);
+        mMovieController.retrieveTitleSearch(mTitleQuery);
+
+    }
+
+    @Override
+    public void onMovieListResult(List<Movie> moviesList) {
+        mSearchResultAdapter.updateDataSet(moviesList);
+        mSearchResultAdapter.notifyDataSetChanged();
+        mCircularProgressView.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+
     }
 }

@@ -11,7 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.VolleyApplication;
-import com.febaisi.moviesearch.component.Movie;
+import com.febaisi.moviesearch.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,24 +25,36 @@ import java.util.List;
  */
 public class MovieController implements  Response.ErrorListener, Response.Listener {
 
+    public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
+    public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
+    private Context mContext;
+
+
     //Implement interface
     private Searchable mSearchable;
-
-
     public interface Searchable {
         void notifyAdapter(Cursor cursor);
     }
 
-    public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
-    public static String JSON_REQUEST_TAG = "SUGGESTION_REQUEST";
-    private Context mContext;
+    private ResultSearchListener mResultSearchListener;
+    public interface ResultSearchListener {
+        void onMovieListResult(List<Movie> moviesList);
+    }
+
 
     public MovieController (Context context, Searchable searchable){
         this.mContext = context;
         this.mSearchable = searchable;
     }
 
-    public void retrieveSuggestionSearch(String titleQuery) {
+    public MovieController (Context context, ResultSearchListener resultSearchListener) {
+        this.mContext = context;
+        this.mResultSearchListener = resultSearchListener;
+    }
+
+
+
+    public void retrieveTitleSearch(String titleQuery) {
         String url = "http://www.omdbapi.com/?s=" + titleQuery;
 
         JsonObjectRequest request = new JsonObjectRequest(url, null, this, this);
@@ -83,6 +95,10 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
 
         if (mSearchable != null) {
             mSearchable.notifyAdapter(createSuggestionCursor(moviesList));
+        }
+        if (mResultSearchListener != null) {
+
+            mResultSearchListener.onMovieListResult(moviesList);
         }
     }
 

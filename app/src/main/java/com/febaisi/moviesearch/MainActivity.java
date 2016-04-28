@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        mMovieController.retrieveSuggestionSearch(newText);
+        mMovieController.retrieveTitleSearch(newText);
         return true;
     }
 

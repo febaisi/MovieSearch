@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
-import com.febaisi.moviesearch.component.Movie;
+import com.febaisi.moviesearch.model.Movie;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by felipe.baisi on 4/27/2016.
  */
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
-    private List<Movie> mListMovies;
+    private List<Movie> mMoviesList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
@@ -25,8 +25,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         }
     }
 
+
+
     public SearchResultAdapter(List<Movie> listMovies) {
-        this.mListMovies = listMovies;
+        this.mMoviesList = listMovies;
     }
 
     @Override
@@ -37,10 +39,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mListMovies.get(position).getTitle());
+        holder.mTextView.setText(mMoviesList.get(position).getTitle());
     }
 
     public int getItemCount() {
-        return mListMovies.size();
+        return mMoviesList.size();
     }
+
+    public void updateDataSet(List<Movie> moviesList) {
+        this.mMoviesList = moviesList;
+    }
+
 }
