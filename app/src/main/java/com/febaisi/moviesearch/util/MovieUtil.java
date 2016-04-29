@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 
+import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.controller.MovieController;
 import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.model.MovieInfo;
 import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,6 +121,78 @@ public class MovieUtil {
         movieInfo.setYear(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[3])));
         movieInfo.setPoster(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[4])));
         return movieInfo;
+    }
+
+    public static MovieInfo createMovieInfoFromIntent(Intent intent) {
+
+        MovieInfo movieInfo = new MovieInfo();
+
+        if ((intent.hasExtra(MovieInfo.TITLE)) && (intent.getStringExtra(MovieInfo.TITLE) != null) && !(intent.getStringExtra(MovieInfo.TITLE).equals("N/A"))) {
+            movieInfo.setTitle(intent.getStringExtra(MovieInfo.TITLE));
+        } else {
+            movieInfo.setTitle("");
+        }
+        if ((intent.hasExtra(MovieInfo.YEAR)) && (intent.getStringExtra(MovieInfo.YEAR) != null) && !(intent.getStringExtra(MovieInfo.YEAR).equals("N/A"))) {
+            movieInfo.setYear(intent.getStringExtra(MovieInfo.YEAR));
+        } else {
+            movieInfo.setYear("");
+        }
+        if ((intent.hasExtra(MovieInfo.PLOT)) && (intent.getStringExtra(MovieInfo.PLOT) != null) && !(intent.getStringExtra(MovieInfo.PLOT).equals("N/A"))) {
+            movieInfo.setPlot(intent.getStringExtra(MovieInfo.PLOT));
+        } else {
+            movieInfo.setPlot("");
+        }
+        if ((intent.hasExtra(MovieInfo.POSTER)) && (intent.getStringExtra(MovieInfo.POSTER) != null) && !(intent.getStringExtra(MovieInfo.POSTER).equals("N/A"))) {
+            movieInfo.setPoster(intent.getStringExtra(MovieInfo.POSTER));
+        } else {
+            movieInfo.setPoster("");
+        }
+        if ((intent.hasExtra(MovieInfo.ACTORS)) && (intent.getStringExtra(MovieInfo.ACTORS) != null) && !(intent.getStringExtra(MovieInfo.ACTORS).equals("N/A"))) {
+            movieInfo.setActors(intent.getStringExtra(MovieInfo.ACTORS));
+        } else {
+            movieInfo.setActors("");
+        }
+        if ((intent.hasExtra(MovieInfo.DIRECTOR)) && (intent.getStringExtra(MovieInfo.DIRECTOR) != null) && !(intent.getStringExtra(MovieInfo.DIRECTOR).equals("N/A"))) {
+            movieInfo.setDirector(intent.getStringExtra(MovieInfo.DIRECTOR));
+        } else {
+            movieInfo.setDirector("");
+        }
+        if ((intent.hasExtra(MovieInfo.WRITER)) && (intent.getStringExtra(MovieInfo.WRITER) != null) && !(intent.getStringExtra(MovieInfo.WRITER).equals("N/A"))) {
+            movieInfo.setWriter(intent.getStringExtra(MovieInfo.WRITER));
+        } else {
+            movieInfo.setWriter("");
+        }
+        if ((intent.hasExtra(MovieInfo.RELEASED)) && (intent.getStringExtra(MovieInfo.RELEASED) != null) && !(intent.getStringExtra(MovieInfo.RELEASED).equals("N/A"))) {
+            movieInfo.setReleased(intent.getStringExtra(MovieInfo.RELEASED));
+        } else {
+            movieInfo.setReleased("");
+        }
+        if ((intent.hasExtra(MovieInfo.RUNTIME)) && (intent.getStringExtra(MovieInfo.RUNTIME) != null) && !(intent.getStringExtra(MovieInfo.RUNTIME).equals("N/A"))) {
+            movieInfo.setRuntime(intent.getStringExtra(MovieInfo.RUNTIME));
+        } else {
+            movieInfo.setRuntime("");
+        }
+        if ((intent.hasExtra(MovieInfo.GENRE)) && (intent.getStringExtra(MovieInfo.GENRE) != null) && !(intent.getStringExtra(MovieInfo.GENRE).equals("N/A"))) {
+            movieInfo.setGenre(intent.getStringExtra(MovieInfo.GENRE));
+        } else {
+            movieInfo.setGenre("");
+        }
+        if ((intent.hasExtra(MovieInfo.METASCORE)) && (intent.getStringExtra(MovieInfo.METASCORE) != null) && !(intent.getStringExtra(MovieInfo.METASCORE).equals("N/A"))) {
+            movieInfo.setMetascore(intent.getStringExtra(MovieInfo.METASCORE));
+        } else {
+            movieInfo.setMetascore("");
+        }
+        if ((intent.hasExtra(MovieInfo.AWARDS)) && (intent.getStringExtra(MovieInfo.AWARDS) != null) && !(intent.getStringExtra(MovieInfo.AWARDS).equals("N/A"))) {
+            movieInfo.setAwards(intent.getStringExtra(MovieInfo.AWARDS));
+        } else {
+            movieInfo.setAwards("");
+        }
+        if ((intent.hasExtra(MovieInfo.COUNTRY)) && (intent.getStringExtra(MovieInfo.COUNTRY) != null) && !(intent.getStringExtra(MovieInfo.COUNTRY).equals("N/A"))) {
+            movieInfo.setCountry(intent.getStringExtra(MovieInfo.COUNTRY));
+        } else {
+            movieInfo.setCountry("");
+        }
+
     }
 
 
