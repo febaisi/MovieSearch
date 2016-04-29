@@ -31,11 +31,6 @@ public class HeaderController extends CoordinatorLayout.Behavior<HeaderView> {
         mContext = context;
     }
 
-    public HeaderController(Context context, AttributeSet attrs, Context mContext) {
-        super(context, attrs);
-        this.mContext = mContext;
-    }
-
     public static int getToolbarHeight(Context context) {
         int result = 0;
         TypedValue tv = new TypedValue();
