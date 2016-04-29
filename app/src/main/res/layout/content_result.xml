@@ -73,7 +73,7 @@
             android:layout_gravity="fill_vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include layout="@layout/content_main" />
+            <include layout="@layout/movie_info" />
 
         </android.support.v4.widget.NestedScrollView>
 

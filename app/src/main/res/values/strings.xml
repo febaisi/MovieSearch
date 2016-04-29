@@ -9,4 +9,6 @@
     <string name="search_movie_description2">you should type on search field</string>
     <string name="search_hint"> Search</string>
     <string name="details">DETAILS</string>
+    <string name="summary">Summary:</string>
+    <string name="summary_example">After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.</string>
 </resources>
