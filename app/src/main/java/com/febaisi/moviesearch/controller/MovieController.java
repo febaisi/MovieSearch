@@ -26,8 +26,9 @@ import java.util.List;
  */
 public class MovieController implements  Response.ErrorListener, Response.Listener {
 
-    public static String[] COLUMS = new String[]{BaseColumns._ID, "Title"};
+    public static String[] COLUMS = new String[]{BaseColumns._ID, Movie.TITLE, Movie.IMDB_ID, Movie.YEAR, Movie.POSTER};
     public static String JSON_REQUEST_TAG = "CANCELABLE_JSON_REQUEST_TAG";
+    public static String REQUEST_MOVIE_INFO = "REQUEST_MOVIE_INFO";
     public Context mContext;
 
     public MovieController (Context context){

@@ -36,7 +36,8 @@ public class MovieUtil {
         MatrixCursor matrixCursor = new MatrixCursor(MovieController.COLUMS);
         int i = 0;
         for(Movie currentMovie : moviesList) {
-            matrixCursor.addRow(new String[]{Integer.toString(i), currentMovie.getTitle()});
+            matrixCursor.addRow(new String[]{Integer.toString(i), currentMovie.getTitle(), currentMovie.getImdbID(), currentMovie.getYear(), currentMovie.getPoster()});
+            i++;
         }
 
         return matrixCursor;
@@ -82,7 +83,7 @@ public class MovieUtil {
         return moviesInfoList;
     }
 
-    public static Intent getFilledMovieIntent(Context context, MovieInfo movieInfo) {
+    public static Intent createMovieInfoIntent(Context context, MovieInfo movieInfo, boolean shouldRequest) {
         Intent intent = new Intent(context.getApplicationContext(), MovieInfoActivity.class);
         intent.putExtra(MovieInfo.TITLE, movieInfo.getTitle());
         intent.putExtra(MovieInfo.YEAR, movieInfo.getYear());
@@ -104,7 +105,20 @@ public class MovieUtil {
         intent.putExtra(MovieInfo.IMDB_ID, movieInfo.getImdbID());
         intent.putExtra(MovieInfo.TYPE, movieInfo.getType());
         intent.putExtra(MovieInfo.RESPONSE, movieInfo.getResponse());
+        if (shouldRequest) {
+            intent.putExtra(MovieController.REQUEST_MOVIE_INFO, shouldRequest);
+        }
+
         return intent;
+    }
+
+    public static MovieInfo createMovieInfoFromCursor(Cursor cursor) {
+        MovieInfo movieInfo = new MovieInfo();
+        movieInfo.setTitle(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[1])));
+        movieInfo.setImdbID(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[2])));
+        movieInfo.setYear(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[3])));
+        movieInfo.setPoster(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[4])));
+        return movieInfo;
     }
 
 

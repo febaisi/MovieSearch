@@ -22,18 +22,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.febaisi.moviesearch.controller.MovieController;
-import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
 import com.febaisi.moviesearch.uicontent.ResultMovieTitleContentFragment;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
+import com.febaisi.moviesearch.util.MovieUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        SearchView.OnQueryTextListener, MovieController.Searchable {
+        SearchView.OnQueryTextListener, SearchView.OnSuggestionListener,
+        MovieController.Searchable {
 
     private SimpleCursorAdapter mSearchAdapter;
     private MovieController mMovieController;
     private FragmentManager mFragmentManager;
     private SearchView mSearchView;
+    private Cursor mSuggestionCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,9 @@ public class MainActivity extends AppCompatActivity
         mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnSuggestionListener(this);
         mSearchView.setSuggestionsAdapter(mSearchAdapter);
+
 
         //handle toolbar back buttons
         MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.action_search),
@@ -132,8 +136,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        if (mSuggestionCursor != null && mSuggestionCursor.moveToFirst()) {
+            mSuggestionCursor.moveToFirst();
+            while (mSuggestionCursor.isAfterLast() == false) {
+                if (mSuggestionCursor.getString(mSuggestionCursor.getColumnIndex(MovieController.COLUMS[0])).equals(Integer.toString(position))) {
+                    Intent intent = MovieUtil.createMovieInfoIntent(this, MovieUtil.createMovieInfoFromCursor(mSuggestionCursor), true);
+                    startActivity(intent);
+                }
+                mSuggestionCursor.moveToNext();
+            }
+        }
+        return true;
+    }
+
+    @Override
     public void notifyAdapter(Cursor cursor) {
-        mSearchAdapter.changeCursor(cursor);
+        mSuggestionCursor = cursor;
+        mSearchAdapter.changeCursor(mSuggestionCursor);
     }
 
     private void replaceTopFragment(Fragment fragment) {
@@ -142,5 +167,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+
 
 }

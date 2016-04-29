@@ -1,7 +1,6 @@
 package com.febaisi.moviesearch.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.controller.MovieInfoController;
 import com.febaisi.moviesearch.model.MovieInfo;
-import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
 import com.febaisi.moviesearch.util.MovieUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
@@ -73,7 +71,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.mCustomCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(MovieUtil.getFilledMovieIntent(mContext, mMoviesInfoList.get(position)));
+                mContext.startActivity(MovieUtil.createMovieInfoIntent(mContext, mMoviesInfoList.get(position), false));
             }
         });
 
