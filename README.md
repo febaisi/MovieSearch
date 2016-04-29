@@ -11,6 +11,7 @@ Items covered: <br>
 - SearchView <br>
 - Search Suggestion (In-app search) (Hystory/Voice optional) <br>
 - Volley Json Requests <br>
+- Rahatarmanahmed CircularProgressView
 - CustomTextView (Set font and others attrs by xml) <br> 
 - Handle Toolbar listeners <br>
 - CustomTextView (Set asset font by xml) <br>
