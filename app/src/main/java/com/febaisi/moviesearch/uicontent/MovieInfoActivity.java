@@ -15,14 +15,17 @@ import android.widget.TextView;
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.component.HeaderView;
+import com.febaisi.moviesearch.controller.MovieController;
+import com.febaisi.moviesearch.controller.MovieInfoController;
 import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.model.MovieInfo;
+import com.febaisi.moviesearch.util.MovieUtil;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by felipebaisi on 4/28/16.
  */
-public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
+public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener, MovieInfoController.ResultMovieInfoSearchListener {
 
     private HeaderView toolbarHeaderView;
     private HeaderView floatHeaderView;
@@ -33,6 +36,7 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
     private TextView headerTopYear;
     private ImageView poster;
     private LinearLayout rowLayouContent;
+    private MovieInfoController movieInfoController;
 
     private boolean isHideToolbarView = false;
 
@@ -56,6 +60,8 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         appBarLayout.addOnOffsetChangedListener(this);
 
+        movieInfoController = new MovieInfoController(this);
+
         handleIntent(getIntent());
     }
 
@@ -77,12 +83,53 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
 
     private void handleIntent(Intent intent) {
 
-        String title = "";
-        String year = "";
+        MovieInfo movieInfo = MovieUtil.createMovieInfoFromIntent(intent);
+        headerTopTitle.setText(movieInfo.getTitle());
+        headerTopYear.setText(movieInfo.getYear());
+        floatHeaderView.bindTo(movieInfo.getTitle(), movieInfo.getYear());
+        Picasso.with(this).load(movieInfo.getPoster()).into(poster);
 
-//        if ((intent.hasExtra(MovieInfo.ACTORS)) && (intent.getStringExtra(MovieInfo.ACTORS) != null) && !(intent.getStringExtra(MovieInfo.ACTORS).equals("N/A"))) {
-//            addLayoutRow(R.drawable.ic_group_grey_800_24dp, intent.getStringExtra(MovieInfo.ACTORS));
-//        }
+        if (intent.getBooleanExtra(MovieController.REQUEST_MOVIE_INFO, false)) {
+            movieInfoController.retrieveMovieInfo(movieInfo.getImdbID());
+            movieInfoController.setResultMovieInfoSearchListener(this);
+        }
+
+        updateViews(movieInfo);
+    }
+
+    private void updateViews(MovieInfo movieInfo) {
+        //add rows
+
+        if (movieInfo.getPlot() != null) {
+            summaryTextView.setText(movieInfo.getPlot());
+        }
+        if ((movieInfo.getActors() != null) && !(movieInfo.getActors().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_group_grey_800_24dp,movieInfo.getActors());
+        }
+        if ((movieInfo.getDirector() != null) && !(movieInfo.getDirector().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_videocam_grey_800_24dp, movieInfo.getDirector());
+        }
+        if ((movieInfo.getWriter() != null) && !(movieInfo.getWriter().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_mode_edit_grey_800_24dp, movieInfo.getWriter());
+        }
+        if ((movieInfo.getReleased() != null) && !(movieInfo.getReleased().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_date_range_grey_800_24dp, movieInfo.getReleased());
+        }
+        if ((movieInfo.getRuntime() != null) && !(movieInfo.getRuntime().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_av_timer_grey_800_24dp, movieInfo.getRuntime());
+        }
+        if ((movieInfo.getGenre() != null) && !(movieInfo.getGenre().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_movie_grey_800_24dp, movieInfo.getGenre());
+        }
+        if ((movieInfo.getMetascore() != null) && !(movieInfo.getMetascore().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_star_grey_800_24dp, movieInfo.getMetascore());
+        }
+        if ((movieInfo.getAwards() != null) && !(movieInfo.getAwards().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_star_border_grey_800_24dp, movieInfo.getAwards());
+        }
+        if ((movieInfo.getCountry() != null) && !(movieInfo.getCountry().equals("N/A"))) {
+            addLayoutRow(R.drawable.ic_location_on_grey_800_24dp, movieInfo.getCountry());
+        }
 
     }
 
@@ -99,4 +146,8 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
     }
 
 
+    @Override
+    public void onMovieInfoResult(MovieInfo movieInfo) {
+        updateViews(movieInfo);
+    }
 }

@@ -127,72 +127,46 @@ public class MovieUtil {
 
         MovieInfo movieInfo = new MovieInfo();
 
-        if ((intent.hasExtra(MovieInfo.TITLE)) && (intent.getStringExtra(MovieInfo.TITLE) != null) && !(intent.getStringExtra(MovieInfo.TITLE).equals("N/A"))) {
+        if ((intent.hasExtra(MovieInfo.TITLE)) && (intent.getStringExtra(MovieInfo.TITLE) != null)) {
             movieInfo.setTitle(intent.getStringExtra(MovieInfo.TITLE));
-        } else {
-            movieInfo.setTitle("");
         }
-        if ((intent.hasExtra(MovieInfo.YEAR)) && (intent.getStringExtra(MovieInfo.YEAR) != null) && !(intent.getStringExtra(MovieInfo.YEAR).equals("N/A"))) {
+        if ((intent.hasExtra(MovieInfo.IMDB_ID)) && (intent.getStringExtra(MovieInfo.IMDB_ID) != null)) {
+            movieInfo.setImdbID(intent.getStringExtra(MovieInfo.IMDB_ID));
+        }
+        if ((intent.hasExtra(MovieInfo.YEAR)) && (intent.getStringExtra(MovieInfo.YEAR) != null)) {
             movieInfo.setYear(intent.getStringExtra(MovieInfo.YEAR));
-        } else {
-            movieInfo.setYear("");
         }
-        if ((intent.hasExtra(MovieInfo.PLOT)) && (intent.getStringExtra(MovieInfo.PLOT) != null) && !(intent.getStringExtra(MovieInfo.PLOT).equals("N/A"))) {
+        if ((intent.hasExtra(MovieInfo.PLOT)) && (intent.getStringExtra(MovieInfo.PLOT) != null)) {
             movieInfo.setPlot(intent.getStringExtra(MovieInfo.PLOT));
-        } else {
-            movieInfo.setPlot("");
         }
-        if ((intent.hasExtra(MovieInfo.POSTER)) && (intent.getStringExtra(MovieInfo.POSTER) != null) && !(intent.getStringExtra(MovieInfo.POSTER).equals("N/A"))) {
+        if ((intent.hasExtra(MovieInfo.POSTER)) && (intent.getStringExtra(MovieInfo.POSTER) != null)) {
             movieInfo.setPoster(intent.getStringExtra(MovieInfo.POSTER));
-        } else {
-            movieInfo.setPoster("");
         }
         if ((intent.hasExtra(MovieInfo.ACTORS)) && (intent.getStringExtra(MovieInfo.ACTORS) != null) && !(intent.getStringExtra(MovieInfo.ACTORS).equals("N/A"))) {
             movieInfo.setActors(intent.getStringExtra(MovieInfo.ACTORS));
-        } else {
-            movieInfo.setActors("");
         }
         if ((intent.hasExtra(MovieInfo.DIRECTOR)) && (intent.getStringExtra(MovieInfo.DIRECTOR) != null) && !(intent.getStringExtra(MovieInfo.DIRECTOR).equals("N/A"))) {
             movieInfo.setDirector(intent.getStringExtra(MovieInfo.DIRECTOR));
-        } else {
-            movieInfo.setDirector("");
         }
         if ((intent.hasExtra(MovieInfo.WRITER)) && (intent.getStringExtra(MovieInfo.WRITER) != null) && !(intent.getStringExtra(MovieInfo.WRITER).equals("N/A"))) {
             movieInfo.setWriter(intent.getStringExtra(MovieInfo.WRITER));
-        } else {
-            movieInfo.setWriter("");
         }
         if ((intent.hasExtra(MovieInfo.RELEASED)) && (intent.getStringExtra(MovieInfo.RELEASED) != null) && !(intent.getStringExtra(MovieInfo.RELEASED).equals("N/A"))) {
             movieInfo.setReleased(intent.getStringExtra(MovieInfo.RELEASED));
-        } else {
-            movieInfo.setReleased("");
-        }
-        if ((intent.hasExtra(MovieInfo.RUNTIME)) && (intent.getStringExtra(MovieInfo.RUNTIME) != null) && !(intent.getStringExtra(MovieInfo.RUNTIME).equals("N/A"))) {
+        }if ((intent.hasExtra(MovieInfo.RUNTIME)) && (intent.getStringExtra(MovieInfo.RUNTIME) != null) && !(intent.getStringExtra(MovieInfo.RUNTIME).equals("N/A"))) {
             movieInfo.setRuntime(intent.getStringExtra(MovieInfo.RUNTIME));
-        } else {
-            movieInfo.setRuntime("");
         }
         if ((intent.hasExtra(MovieInfo.GENRE)) && (intent.getStringExtra(MovieInfo.GENRE) != null) && !(intent.getStringExtra(MovieInfo.GENRE).equals("N/A"))) {
             movieInfo.setGenre(intent.getStringExtra(MovieInfo.GENRE));
-        } else {
-            movieInfo.setGenre("");
-        }
-        if ((intent.hasExtra(MovieInfo.METASCORE)) && (intent.getStringExtra(MovieInfo.METASCORE) != null) && !(intent.getStringExtra(MovieInfo.METASCORE).equals("N/A"))) {
+        }if ((intent.hasExtra(MovieInfo.METASCORE)) && (intent.getStringExtra(MovieInfo.METASCORE) != null) && !(intent.getStringExtra(MovieInfo.METASCORE).equals("N/A"))) {
             movieInfo.setMetascore(intent.getStringExtra(MovieInfo.METASCORE));
-        } else {
-            movieInfo.setMetascore("");
-        }
-        if ((intent.hasExtra(MovieInfo.AWARDS)) && (intent.getStringExtra(MovieInfo.AWARDS) != null) && !(intent.getStringExtra(MovieInfo.AWARDS).equals("N/A"))) {
+        }if ((intent.hasExtra(MovieInfo.AWARDS)) && (intent.getStringExtra(MovieInfo.AWARDS) != null) && !(intent.getStringExtra(MovieInfo.AWARDS).equals("N/A"))) {
             movieInfo.setAwards(intent.getStringExtra(MovieInfo.AWARDS));
-        } else {
-            movieInfo.setAwards("");
         }
         if ((intent.hasExtra(MovieInfo.COUNTRY)) && (intent.getStringExtra(MovieInfo.COUNTRY) != null) && !(intent.getStringExtra(MovieInfo.COUNTRY).equals("N/A"))) {
             movieInfo.setCountry(intent.getStringExtra(MovieInfo.COUNTRY));
-        } else {
-            movieInfo.setCountry("");
         }
-
+        return movieInfo;
     }
 
 
