@@ -9,7 +9,7 @@ Items covered: <br>
 - SelectableRoundedImageView <br>
 - Collapsingtoolbarlayout <br>
 - SearchView <br>
-- Search Suggestion (In-app search) (Persist/Hystory optional) <br>
+- Search Suggestion (In-app search) (Hystory/Voice optional) <br>
 - Volley Json Requests <br>
 - CustomTextView (Set font and others attrs by xml) <br> 
 - Handle Toolbar listeners <br>
