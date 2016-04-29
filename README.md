@@ -21,12 +21,12 @@ Items covered: <br>
 Project content - Movie details provided by http://www.omdbapi.com API. <br> <br> 
 
 ### Screenshots n Gifs  <br>
-[In-app Search - SearachView Suggention] <br>
-![In-app Search - SearachView Suggention](https://i.imgur.com/Ps3ux1e.gif). <br>
-[CardView] <br>
+[In-app Search - Suggention]               [CardView] <br>
+![In-app Search - SearachView Suggention](https://i.imgur.com/Ps3ux1e.gif) ![CardView](https://i.imgur.com/7NOqegq.gif)  ![CollapsingToolbarLayout](https://i.imgur.com/TOTBoeQ.gif)   <br>
+ <br>
 ![CardView](https://i.imgur.com/7NOqegq.gif)  
 [CollapsingToolbarLayout] <br>
-![CollapsingToolbarLayout](https://i.imgur.com/TOTBoeQ.gif)  
+  
 
 
 
