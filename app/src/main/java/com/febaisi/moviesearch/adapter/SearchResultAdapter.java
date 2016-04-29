@@ -64,7 +64,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.mPlotTextView.setText(plot);
 
         String imageUrl = mMoviesInfoList.get(position).getPoster();
-        if (!imageUrl.equals("N/A")) {
+        if ((imageUrl != null) && !(imageUrl.isEmpty()) && !(imageUrl.equals("N/A"))) {
             Picasso.with(mContext).load(imageUrl).into(holder.mSelectableRoundedImageView);
         }
 

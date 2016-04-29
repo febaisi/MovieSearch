@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.febaisi.moviesearch.component.HeaderView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/header_view_start_text_size"
+        android:textStyle="bold"
+        android:text="Finding Nemo"/>
+
+    <TextView
+        android:id="@+id/year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="2009"
+        android:textColor="@android:color/white" />
+
+
+</com.febaisi.moviesearch.component.HeaderView>

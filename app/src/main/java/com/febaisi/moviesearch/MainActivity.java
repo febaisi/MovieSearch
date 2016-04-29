@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,7 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.febaisi.moviesearch.controller.MovieController;
-import com.febaisi.moviesearch.uicontent.ResultMovieTitleContentFragment;
+import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -114,11 +115,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Bundle bundle = new Bundle();
-        bundle.putString(ResultMovieTitleContentFragment.QUERY, query);
-        ResultMovieTitleContentFragment resultContentFragment = new ResultMovieTitleContentFragment();
-        resultContentFragment.setArguments(bundle);
-        replaceTopFragment(resultContentFragment);
+//        Bundle bundle = new Bundle();
+//        bundle.putString(ResultMovieTitleContentFragment.QUERY, query);
+//        ResultMovieTitleContentFragment resultContentFragment = new ResultMovieTitleContentFragment();
+//        resultContentFragment.setArguments(bundle);
+
+        getSupportActionBar().hide();
+
+//        MovieInfoActivity movieInfoFragment = new MovieInfoActivity();
+//
+//        replaceTopFragment(movieInfoFragment);
+        startActivity(new Intent(MainActivity.this, MovieInfoActivity.class));
         mSearchView.clearFocus();
         return true;
     }
