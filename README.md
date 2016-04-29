@@ -13,7 +13,9 @@ Items covered: <br>
 - Volley Json Requests <br>
 - CustomTextView (Set font and others attrs by xml) <br> 
 - Handle Toolbar listeners <br>
+- CustomTextView (Set asset font by xml) <br>
 - Picasso (Image Handler - Loader / Cache) <br><br>
+
 
 
 Project content - Movie details provided by http://www.omdbapi.com API. <br> <br> 
