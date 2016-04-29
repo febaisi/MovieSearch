@@ -1,11 +1,14 @@
 package com.febaisi.moviesearch.util;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 
 import com.febaisi.moviesearch.controller.MovieController;
 import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.model.MovieInfo;
+import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +47,7 @@ public class MovieUtil {
         movieInfo.setTitle(jsonObject.getString(MovieInfo.TITLE));
         movieInfo.setYear(jsonObject.getString(MovieInfo.YEAR));
         movieInfo.setRated(jsonObject.getString(MovieInfo.RATED));
+        movieInfo.setReleased(jsonObject.getString(MovieInfo.RELEASED));
         movieInfo.setRuntime(jsonObject.getString(MovieInfo.RUNTIME));
         movieInfo.setGenre(jsonObject.getString(MovieInfo.GENRE));
         movieInfo.setDirector(jsonObject.getString(MovieInfo.DIRECTOR));
@@ -77,5 +81,31 @@ public class MovieUtil {
         }
         return moviesInfoList;
     }
+
+    public static Intent getFilledMovieIntent(Context context, MovieInfo movieInfo) {
+        Intent intent = new Intent(context.getApplicationContext(), MovieInfoActivity.class);
+        intent.putExtra(MovieInfo.TITLE, movieInfo.getTitle());
+        intent.putExtra(MovieInfo.YEAR, movieInfo.getYear());
+        intent.putExtra(MovieInfo.RATED, movieInfo.getRated());
+        intent.putExtra(MovieInfo.RELEASED, movieInfo.getReleased());
+        intent.putExtra(MovieInfo.RUNTIME, movieInfo.getRuntime());
+        intent.putExtra(MovieInfo.GENRE, movieInfo.getGenre());
+        intent.putExtra(MovieInfo.DIRECTOR, movieInfo.getDirector());
+        intent.putExtra(MovieInfo.WRITER, movieInfo.getWriter());
+        intent.putExtra(MovieInfo.ACTORS, movieInfo.getActors());
+        intent.putExtra(MovieInfo.PLOT, movieInfo.getPlot());
+        intent.putExtra(MovieInfo.LANGUAGE, movieInfo.getLanguage());
+        intent.putExtra(MovieInfo.COUNTRY, movieInfo.getCountry());
+        intent.putExtra(MovieInfo.AWARDS, movieInfo.getAwards());
+        intent.putExtra(MovieInfo.POSTER, movieInfo.getPoster());
+        intent.putExtra(MovieInfo.METASCORE, movieInfo.getMetascore());
+        intent.putExtra(MovieInfo.IMDB_RATING, movieInfo.getImdbRating());
+        intent.putExtra(MovieInfo.IMDB_VOTES, movieInfo.getImdbVotes());
+        intent.putExtra(MovieInfo.IMDB_ID, movieInfo.getImdbID());
+        intent.putExtra(MovieInfo.TYPE, movieInfo.getType());
+        intent.putExtra(MovieInfo.RESPONSE, movieInfo.getResponse());
+        return intent;
+    }
+
 
 }

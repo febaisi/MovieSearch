@@ -1,18 +1,20 @@
 package com.febaisi.moviesearch.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.controller.MovieInfoController;
 import com.febaisi.moviesearch.model.MovieInfo;
+import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
+import com.febaisi.moviesearch.util.MovieUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +55,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return vh;
     }
 
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.mTitleTextView.setText(mMoviesInfoList.get(position).getTitle());
         holder.mCustomCardView.setPreventCornerOverlap(false);
 
@@ -67,6 +69,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         if ((imageUrl != null) && !(imageUrl.isEmpty()) && !(imageUrl.equals("N/A"))) {
             Picasso.with(mContext).load(imageUrl).into(holder.mSelectableRoundedImageView);
         }
+
+        holder.mCustomCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(MovieUtil.getFilledMovieIntent(mContext, mMoviesInfoList.get(position)));
+            }
+        });
 
 
     }
@@ -92,12 +101,20 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         for (MovieInfo curMovieInfo : mMoviesInfoList) {
             if(curMovieInfo.getImdbID().equals(movieInfo.getImdbID())) {
                 curMovieInfo.setPlot(movieInfo.getPlot());
+                curMovieInfo.setActors(movieInfo.getActors());
+                curMovieInfo.setDirector(movieInfo.getDirector());
+                curMovieInfo.setWriter(movieInfo.getWriter());
+                curMovieInfo.setReleased(movieInfo.getReleased());
+                curMovieInfo.setRuntime(movieInfo.getRuntime());
+                curMovieInfo.setGenre(movieInfo.getGenre());
+                curMovieInfo.setMetascore(movieInfo.getMetascore());
+                curMovieInfo.setAwards(movieInfo.getAwards());
+                curMovieInfo.setCountry(movieInfo.getCountry());
                 break;
             }
         }
         notifyDataSetChanged();
     }
-
 
 
 }

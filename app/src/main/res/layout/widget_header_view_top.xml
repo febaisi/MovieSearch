@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/header_view_top_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -17,7 +17,7 @@
         android:text="Finding Nemo"/>
 
     <TextView
-        android:id="@+id/last_seen"
+        android:id="@+id/header_view_top_year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
