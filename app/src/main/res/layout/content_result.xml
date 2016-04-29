@@ -14,12 +14,20 @@
         android:layout_centerInParent="true">
 
         <!-- Center circle line | Should calc pt to dp to follow zeplin guide -->
-        <!-- TODO -->
-        <View
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:background="@drawable/center_circle">
-        </View>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:background="@drawable/center_circle">
+            </View>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_white_48dp"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
         <com.febaisi.moviesearch.component.CustomTextView
             android:layout_width="wrap_content"
