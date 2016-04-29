@@ -22,7 +22,7 @@ Items covered: <br>
 Project content - Movie details provided by http://www.omdbapi.com API. <br> <br> 
 
 ### Screenshots n Gifs  <br>
-[...........In-app Search - Suggention..........] [........................CardView..........................] <br>
+[...........In-app Search - Suggestion..........] [........................CardView..........................] <br>
 ![In-app Search - SearachView Suggention](https://i.imgur.com/Ps3ux1e.gif) ![CardView](https://i.imgur.com/7NOqegq.gif)   <br>  
 
 [.....DynamicCollapsingToolbarLayout.......] <br>
