@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -140,12 +139,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onSuggestionClick(int position) {
+        //on user click in seach suggestions
         if (mSuggestionCursor != null && mSuggestionCursor.moveToFirst()) {
             mSuggestionCursor.moveToFirst();
             while (mSuggestionCursor.isAfterLast() == false) {
                 if (mSuggestionCursor.getString(mSuggestionCursor.getColumnIndex(MovieController.COLUMS[0])).equals(Integer.toString(position))) {
                     Intent intent = MovieUtil.createMovieInfoIntent(this, MovieUtil.createMovieInfoFromCursor(mSuggestionCursor), true);
                     startActivity(intent);
+                    break;
                 }
                 mSuggestionCursor.moveToNext();
             }

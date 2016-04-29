@@ -67,15 +67,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         if ((imageUrl != null) && !(imageUrl.isEmpty()) && !(imageUrl.equals("N/A"))) {
             Picasso.with(mContext).load(imageUrl).into(holder.mSelectableRoundedImageView);
         }
-
         holder.mCustomCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(MovieUtil.createMovieInfoIntent(mContext, mMoviesInfoList.get(position), false));
             }
         });
-
-
     }
 
     public int getItemCount() {

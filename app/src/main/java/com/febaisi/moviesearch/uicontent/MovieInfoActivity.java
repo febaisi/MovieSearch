@@ -47,6 +47,7 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collapsing_movie);
 
+        //gettings views
         toolbarHeaderView = (HeaderView) findViewById(R.id.toolbar_header_view);
         floatHeaderView = (HeaderView) findViewById(R.id.float_header_view);
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
@@ -57,9 +58,9 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
         poster = (ImageView) findViewById(R.id.collapse_poster);
         rowLayouContent = (LinearLayout) findViewById(R.id.movie_info_row_content);
 
+
+        //Add action bar settings
         toolbar.setTitle("");
-
-
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,15 +68,10 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
                 finish();
             }
         });
-
-
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         appBarLayout.addOnOffsetChangedListener(this);
 
         movieInfoController = new MovieInfoController(this);
-
         handleIntent(getIntent());
     }
 
@@ -83,7 +79,6 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
-
         if (percentage == 1f && isHideToolbarView) {
             toolbarHeaderView.setVisibility(View.VISIBLE);
             isHideToolbarView = !isHideToolbarView;
@@ -92,11 +87,9 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
             toolbarHeaderView.setVisibility(View.GONE);
             isHideToolbarView = !isHideToolbarView;
         }
-
     }
 
     private void handleIntent(Intent intent) {
-
         MovieInfo movieInfo = MovieUtil.createMovieInfoFromIntent(intent);
         headerTopTitle.setText(movieInfo.getTitle());
         headerTopYear.setText(movieInfo.getYear());
@@ -107,13 +100,11 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
             movieInfoController.retrieveMovieInfo(movieInfo.getImdbID());
             movieInfoController.setResultMovieInfoSearchListener(this);
         }
-
         updateViews(movieInfo);
     }
 
     private void updateViews(MovieInfo movieInfo) {
-        //add rows
-
+        //add rows for each movie item
         if (movieInfo.getPlot() != null) {
             summaryTextView.setText(movieInfo.getPlot());
         }
@@ -144,21 +135,16 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
         if ((movieInfo.getCountry() != null) && !(movieInfo.getCountry().equals("N/A"))) {
             addLayoutRow(R.drawable.ic_location_on_grey_800_24dp, movieInfo.getCountry());
         }
-
     }
 
     private void addLayoutRow(int drawableRes, String itemDescription){
         View movieInfoRow =  getLayoutInflater().inflate(R.layout.move_info_row, null);
         TextView textView = (TextView) movieInfoRow.findViewById(R.id.movie_info_item_detail);
         ImageView imageView = (ImageView) movieInfoRow.findViewById(R.id.movie_info_item_image);
-
         textView.setText(itemDescription);
         imageView.setImageDrawable(getResources().getDrawable(drawableRes, null));
-
         rowLayouContent.addView(movieInfoRow);
-
     }
-
 
     @Override
     public void onMovieInfoResult(MovieInfo movieInfo) {

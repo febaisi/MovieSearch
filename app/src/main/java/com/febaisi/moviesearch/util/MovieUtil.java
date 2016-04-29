@@ -30,7 +30,6 @@ public class MovieUtil {
         movie.setImdbID(jsonObject.getString(Movie.IMDB_ID));
         movie.setType(jsonObject.getString(Movie.TYPE));
         movie.setPoster(jsonObject.getString(Movie.POSTER));
-
         return movie;
     }
 
@@ -41,7 +40,6 @@ public class MovieUtil {
             matrixCursor.addRow(new String[]{Integer.toString(i), currentMovie.getTitle(), currentMovie.getImdbID(), currentMovie.getYear(), currentMovie.getPoster()});
             i++;
         }
-
         return matrixCursor;
     }
 
@@ -67,7 +65,6 @@ public class MovieUtil {
         movieInfo.setImdbID(jsonObject.getString(MovieInfo.IMDB_ID));
         movieInfo.setType(jsonObject.getString(MovieInfo.TYPE));
         movieInfo.setResponse(jsonObject.getString(MovieInfo.RESPONSE));
-
         return movieInfo;
     }
 
@@ -110,7 +107,6 @@ public class MovieUtil {
         if (shouldRequest) {
             intent.putExtra(MovieController.REQUEST_MOVIE_INFO, shouldRequest);
         }
-
         return intent;
     }
 
@@ -126,7 +122,6 @@ public class MovieUtil {
     public static MovieInfo createMovieInfoFromIntent(Intent intent) {
 
         MovieInfo movieInfo = new MovieInfo();
-
         if ((intent.hasExtra(MovieInfo.TITLE)) && (intent.getStringExtra(MovieInfo.TITLE) != null)) {
             movieInfo.setTitle(intent.getStringExtra(MovieInfo.TITLE));
         }
