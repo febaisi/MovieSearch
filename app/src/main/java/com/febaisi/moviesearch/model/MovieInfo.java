@@ -3,11 +3,8 @@ package com.febaisi.moviesearch.model;
 /**
  * Created by felipebaisi on 4/28/16.
  */
-public class MovieInfo {
+public class MovieInfo extends Movie {
 
-
-    public static String TITLE = "Title";
-    public static String YEAR = "Year";
     public static String RATED = "Rated";
     public static String RELEASED = "Released";
     public static String RUNTIME = "Runtime";
@@ -19,16 +16,11 @@ public class MovieInfo {
     public static String LANGUAGE = "Language";
     public static String COUNTRY = "Country";
     public static String AWARDS = "Awards";
-    public static String POSTER = "Poster";
     public static String METASCORE = "Metascore";
     public static String IMDB_RATING = "imdbRating";
     public static String IMDB_VOTES = "imdbVotes";
-    public static String IMDB_ID = "imdbID";
-    public static String TYPE = "Type";
     public static String RESPONSE = "Response";
 
-    private String title;
-    private String year;
     private String rated;
     private String released;
     private String runtime;
@@ -40,29 +32,12 @@ public class MovieInfo {
     private String language;
     private String country;
     private String awards;
-    private String poster;
     private String metascore;
     private String imdbRating;
     private String imdbVotes;
-    private String imdbID;
-    private String type;
     private String response;
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
 
     public String getRated() {
         return rated;
@@ -152,14 +127,6 @@ public class MovieInfo {
         this.awards = awards;
     }
 
-    public String getPoster() {
-        return poster;
-    }
-
-    public void setPoster(String poster) {
-        this.poster = poster;
-    }
-
     public String getMetascore() {
         return metascore;
     }
@@ -182,22 +149,6 @@ public class MovieInfo {
 
     public void setImdbVotes(String imdbVotes) {
         this.imdbVotes = imdbVotes;
-    }
-
-    public String getImdbID() {
-        return imdbID;
-    }
-
-    public void setImdbID(String imdbID) {
-        this.imdbID = imdbID;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getResponse() {
