@@ -80,11 +80,11 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
         String title = "";
         String year = "";
 
-        if (intent.hasExtra(MovieInfo.TITLE)) {
+        if ((intent.hasExtra(MovieInfo.TITLE)) && (intent.getStringExtra(MovieInfo.TITLE) != null) && !(intent.getStringExtra(MovieInfo.TITLE).equals("N/A"))) {
             title = getIntent().getStringExtra(MovieInfo.TITLE);
             headerTopTitle.setText(title);
         }
-        if (intent.hasExtra(MovieInfo.YEAR)) {
+        if ((intent.hasExtra(MovieInfo.YEAR)) && (intent.getStringExtra(MovieInfo.YEAR) != null) && !(intent.getStringExtra(MovieInfo.YEAR).equals("N/A"))) {
             year = getIntent().getStringExtra(MovieInfo.YEAR);
             headerTopYear.setText(year);
         }
