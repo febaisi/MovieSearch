@@ -8,6 +8,7 @@ Items covered: <br>
 - CardView <br>
 - SelectableRoundedImageView <br>
 - Collapsingtoolbarlayout <br>
+- RecyclerView Paging Endless (6 Cards) - Branch: recyclerPage6 <br>
 - SearchView <br>
 - Search Suggestion (In-app search) (Hystory/Voice optional) <br>
 - Volley Json Requests <br>
