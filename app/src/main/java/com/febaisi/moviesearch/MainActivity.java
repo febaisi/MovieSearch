@@ -22,7 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.febaisi.moviesearch.controller.MovieController;
-import com.febaisi.moviesearch.uicontent.ResultMovieTitleContentFragment;
+import com.febaisi.moviesearch.uicontent.ResultMovieFragment;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 import com.febaisi.moviesearch.util.MovieUtil;
 
@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextSubmit(String query) {
         Bundle bundle = new Bundle();
-        bundle.putString(ResultMovieTitleContentFragment.QUERY, query);
-        ResultMovieTitleContentFragment resultContentFragment = new ResultMovieTitleContentFragment();
+        bundle.putString(ResultMovieFragment.QUERY, query);
+        ResultMovieFragment resultContentFragment = new ResultMovieFragment();
         resultContentFragment.setArguments(bundle);
         replaceTopFragment(resultContentFragment);
         return false;
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        mMovieController.retrieveTitleSearch(newText);
+        mMovieController.retrieveTitleSearch(newText, null);
         return true;
     }
 

@@ -47,14 +47,19 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
     //Implement ResultMovieTitleSearchListener interface
     private ResultMovieTitleSearchListener mResultMovieTitleSearchListener;
     public interface ResultMovieTitleSearchListener {
-        void onMovieListResult(List<Movie> moviesList);
+        void onMovieListResult(List<Movie> moviesList, int totalResults);
     }
     public void setOnMovieListResult(ResultMovieTitleSearchListener resultMovieTitleSearchListener) {
         this.mResultMovieTitleSearchListener = resultMovieTitleSearchListener;
     }
 
-    public void retrieveTitleSearch(String titleQuery) {
-        retrieveUrl("http://www.omdbapi.com/?s=" + titleQuery, true);
+    public void retrieveTitleSearch(String titleQuery, String page) {
+        if (page != null) {
+            retrieveUrl("http://www.omdbapi.com/?s=" + titleQuery + "&page=" + page, true);
+        } else {
+            retrieveUrl("http://www.omdbapi.com/?s=" + titleQuery, true);
+        }
+
     }
 
     public void retrieveUrl(String url, boolean cancelable) {
@@ -68,14 +73,16 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.e(mContext.getResources().getString(R.string.app_name), error.toString());
+        //Log.e(mContext.getResources().getString(R.string.app_name), error.toString());
     }
 
     @Override
     public void onResponse(Object objResponse) {
+        String totalResults ="999";
         List<Movie> moviesList = new ArrayList<>();
         JSONObject response =  (JSONObject) objResponse;
         try {
+            totalResults = response.get("totalResults").toString();
             JSONArray searchArray = response.getJSONArray("Search");
             for(int i = 0; i<searchArray.length(); i++){
                 moviesList.add(MovieUtil.parseJsonMovie(searchArray.getJSONObject(i)));
@@ -89,7 +96,7 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
             mSearchable.notifyAdapter(MovieUtil.createSuggestionCursor(moviesList));
         }
         if (mResultMovieTitleSearchListener != null) {
-            mResultMovieTitleSearchListener.onMovieListResult(moviesList);
+            mResultMovieTitleSearchListener.onMovieListResult(moviesList, Integer.parseInt(totalResults));
         }
     }
 

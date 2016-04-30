@@ -150,4 +150,9 @@ public class MovieInfoActivity extends AppCompatActivity implements AppBarLayout
     public void onMovieInfoResult(MovieInfo movieInfo) {
         updateViews(movieInfo);
     }
+
+    @Override
+    public void onMovieResultFail() {
+
+    }
 }

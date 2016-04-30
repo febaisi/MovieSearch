@@ -3,6 +3,7 @@ package com.febaisi.moviesearch.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.controller.MovieInfoController;
 import com.febaisi.moviesearch.model.MovieInfo;
+import com.febaisi.moviesearch.uicontent.ResultMovieFragment;
 import com.febaisi.moviesearch.util.MovieUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
@@ -25,6 +27,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     private List<MovieInfo> mMoviesInfoList;
     private Context mContext;
+    public int currentRows = 0;
+    MovieInfoController movieInfoController;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CustomTextView mTitleTextView;
@@ -42,6 +46,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     public SearchResultAdapter(List<MovieInfo> listMovies) {
         this.mMoviesInfoList = listMovies;
+        movieInfoController = new MovieInfoController(mContext);
+        movieInfoController.setResultMovieInfoSearchListener(this);
     }
 
     @Override
@@ -49,7 +55,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_recycler_row, parent, false);
         ViewHolder vh = new ViewHolder(v);
         mContext = v.getContext();
-        retrieveMoviesInfo();
         return vh;
     }
 
@@ -65,7 +70,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
         String imageUrl = mMoviesInfoList.get(position).getPoster();
         if ((imageUrl != null) && !(imageUrl.isEmpty()) && !(imageUrl.equals("N/A"))) {
-            Picasso.with(mContext).load(imageUrl).into(holder.mSelectableRoundedImageView);
+            Picasso.with(mContext).load(mMoviesInfoList.get(position).getPoster()).into(holder.mSelectableRoundedImageView);
+        } else {
+            holder.mSelectableRoundedImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.bck_rounded, null));
         }
         holder.mCustomCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,17 +83,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     public int getItemCount() {
-        return mMoviesInfoList.size();
+        return currentRows;
     }
 
     public void updateDataSet(List<MovieInfo> moviesList) {
         this.mMoviesInfoList = moviesList;
-    }
-
-    private void retrieveMoviesInfo(){
-        MovieInfoController movieInfoController = new MovieInfoController(mContext);
-        movieInfoController.setResultMovieInfoSearchListener(this);
-        for (MovieInfo movieInfo : mMoviesInfoList) {
+        for (MovieInfo movieInfo : moviesList) {
             movieInfoController.retrieveMovieInfo(movieInfo.getImdbID());
         }
     }
@@ -111,5 +113,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onMovieResultFail() {
+    }
+
+    public void setCurrentRows(int currentRows) {
+        this.currentRows = currentRows;
+    }
 
 }

@@ -82,6 +82,13 @@ public class MovieUtil {
         return moviesInfoList;
     }
 
+    public static List<MovieInfo>  addMovieInfo(List<MovieInfo>  currentMovieInfo, List<MovieInfo> newMovieInfo) {
+        for (MovieInfo movieInfo : newMovieInfo) {
+            currentMovieInfo.add(movieInfo);
+        }
+        return currentMovieInfo;
+    }
+
     public static Intent createMovieInfoIntent(Context context, MovieInfo movieInfo, boolean shouldRequest) {
         Intent intent = new Intent(context.getApplicationContext(), MovieInfoActivity.class);
         intent.putExtra(MovieInfo.TITLE, movieInfo.getTitle());

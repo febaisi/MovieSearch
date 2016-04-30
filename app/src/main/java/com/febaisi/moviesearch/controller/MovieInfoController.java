@@ -22,6 +22,7 @@ public class MovieInfoController extends MovieController {
     private ResultMovieInfoSearchListener mResultMovieInfoSearchListener;
     public interface ResultMovieInfoSearchListener {
         void onMovieInfoResult(MovieInfo movieInfo);
+        void onMovieResultFail();
     }
     public void setResultMovieInfoSearchListener(ResultMovieInfoSearchListener resultMovieInfoSearchListener) {
         this.mResultMovieInfoSearchListener = resultMovieInfoSearchListener;
@@ -40,6 +41,9 @@ public class MovieInfoController extends MovieController {
                 mResultMovieInfoSearchListener.onMovieInfoResult(movieInfo);
             }
         } catch (JSONException e) {
+            if (mResultMovieInfoSearchListener != null) {
+                mResultMovieInfoSearchListener.onMovieResultFail();
+            }
             e.printStackTrace();
         }
     }
