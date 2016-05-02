@@ -22,14 +22,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.febaisi.moviesearch.controller.MovieController;
+import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.uicontent.ResultMovieTitleContentFragment;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 import com.febaisi.moviesearch.util.MovieUtil;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SearchView.OnQueryTextListener, SearchView.OnSuggestionListener,
-        MovieController.Searchable {
+        MovieController.ResultMovieTitleSearchListener {
 
     private SimpleCursorAdapter mSearchAdapter;
     private MovieController mMovieController;
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         //Create 'Searchable' class listener in MovieController
         mMovieController = new MovieController(this);
-        mMovieController.setSearchableListener(this);
+        mMovieController.setOnMovieListResult(this);
 
         //Present first fragment
         mFragmentManager = getFragmentManager();
@@ -154,12 +157,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void notifyAdapter(Cursor cursor) {
-        mSuggestionCursor = cursor;
-        mSearchAdapter.changeCursor(mSuggestionCursor);
-    }
-
     private void replaceTopFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_main_layout, fragment);
@@ -167,6 +164,9 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-
-
+    @Override
+    public void onMovieListResult(List<Movie> moviesList) {
+        mSuggestionCursor = MovieUtil.createSuggestionCursor(moviesList);
+        mSearchAdapter.changeCursor(mSuggestionCursor);
+    }
 }

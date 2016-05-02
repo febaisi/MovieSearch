@@ -1,8 +1,6 @@
 package com.febaisi.moviesearch.controller;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -29,28 +27,11 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
     public static String[] COLUMS = new String[]{BaseColumns._ID, Movie.TITLE, Movie.IMDB_ID, Movie.YEAR, Movie.POSTER};
     public static String JSON_REQUEST_TAG = "CANCELABLE_JSON_REQUEST_TAG";
     public static String REQUEST_MOVIE_INFO = "REQUEST_MOVIE_INFO";
-    public Context mContext;
+    private Context mContext;
+    private ResultMovieTitleSearchListener mResultMovieTitleSearchListener;
 
     public MovieController (Context context){
         this.mContext = context;
-    }
-
-
-    //Implement searchable interface
-    private Searchable mSearchable;
-    public interface Searchable {
-        void notifyAdapter(Cursor cursor);
-    }
-    public void setSearchableListener(Searchable searchable) {
-        this.mSearchable = searchable;
-    }
-    //Implement ResultMovieTitleSearchListener interface
-    private ResultMovieTitleSearchListener mResultMovieTitleSearchListener;
-    public interface ResultMovieTitleSearchListener {
-        void onMovieListResult(List<Movie> moviesList);
-    }
-    public void setOnMovieListResult(ResultMovieTitleSearchListener resultMovieTitleSearchListener) {
-        this.mResultMovieTitleSearchListener = resultMovieTitleSearchListener;
     }
 
     public void retrieveTitleSearch(String titleQuery) {
@@ -85,12 +66,17 @@ public class MovieController implements  Response.ErrorListener, Response.Listen
         }
 
         //notify listeners
-        if (mSearchable != null) {
-            mSearchable.notifyAdapter(MovieUtil.createSuggestionCursor(moviesList));
-        }
         if (mResultMovieTitleSearchListener != null) {
             mResultMovieTitleSearchListener.onMovieListResult(moviesList);
         }
+    }
+
+    //settings interfaces
+    public interface ResultMovieTitleSearchListener {
+        void onMovieListResult(List<Movie> moviesList);
+    }
+    public void setOnMovieListResult(ResultMovieTitleSearchListener resultMovieTitleSearchListener) {
+        this.mResultMovieTitleSearchListener = resultMovieTitleSearchListener;
     }
 
 }

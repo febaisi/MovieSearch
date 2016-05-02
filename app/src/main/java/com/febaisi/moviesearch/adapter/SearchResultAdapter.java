@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.component.CustomTextView;
 import com.febaisi.moviesearch.controller.MovieInfoController;
-import com.febaisi.moviesearch.model.MovieInfo;
+import com.febaisi.moviesearch.model.Movie;
 import com.febaisi.moviesearch.util.MovieUtil;
 import com.joooonho.SelectableRoundedImageView;
 import com.squareup.picasso.Picasso;
@@ -25,8 +25,12 @@ import java.util.List;
  */
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> implements MovieInfoController.ResultMovieInfoSearchListener {
 
-    private List<MovieInfo> mMoviesInfoList;
+    private List<Movie> mMoviesList;
     private Context mContext;
+
+    public SearchResultAdapter(List<Movie> moviesList) {
+        this.mMoviesList = moviesList;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CustomTextView mTitleTextView;
@@ -44,93 +48,87 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         }
     }
 
-    public SearchResultAdapter(List<MovieInfo> listMovies) {
-        this.mMoviesInfoList = listMovies;
-    }
-
     @Override
-    public SearchResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_recycler_row, parent, false);
         ViewHolder vh = new ViewHolder(v);
         mContext = v.getContext();
         retrieveMoviesInfo();
+
         return vh;
     }
 
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.mTitleTextView.setText(mMoviesInfoList.get(position).getTitle());
+        holder.mTitleTextView.setText(mMoviesList.get(position).getTitle());
         holder.mCustomCardView.setPreventCornerOverlap(false);
 
-        String plot = mMoviesInfoList.get(position).getPlot();
+        String plot = mMoviesList.get(position).getPlot();
         if (plot != null && plot.length() > 120) {
             plot = plot.substring(0,120) + "...";
         }
         holder.mPlotTextView.setText(plot);
 
-        String imageUrl = mMoviesInfoList.get(position).getPoster();
+        String imageUrl = mMoviesList.get(position).getPoster();
         if ((imageUrl != null) && !(imageUrl.isEmpty()) && !(imageUrl.equals("N/A"))) {
             Picasso.with(mContext).load(imageUrl).into(holder.mSelectableRoundedImageView);
         }
         holder.mCustomCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(MovieUtil.createMovieInfoIntent(mContext, mMoviesInfoList.get(position), false));
+                mContext.startActivity(MovieUtil.createMovieInfoIntent(mContext, mMoviesList.get(position), false));
             }
         });
         holder.mShareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareMessage(mMoviesInfoList.get(position));
+                shareMessage(mMoviesList.get(position));
             }
         });
     }
 
     public int getItemCount() {
-        return mMoviesInfoList.size();
+        return mMoviesList.size();
     }
 
-    public void updateDataSet(List<MovieInfo> moviesList) {
-        this.mMoviesInfoList = moviesList;
+    public void updateDataSet(List<Movie> moviesList) {
+        this.mMoviesList = moviesList;
     }
 
     private void retrieveMoviesInfo(){
         MovieInfoController movieInfoController = new MovieInfoController(mContext);
         movieInfoController.setResultMovieInfoSearchListener(this);
-        for (MovieInfo movieInfo : mMoviesInfoList) {
-            movieInfoController.retrieveMovieInfo(movieInfo.getImdbID());
+        for (Movie movie : mMoviesList) {
+            movieInfoController.retrieveMovieInfo(movie.getImdbID());
         }
     }
 
     @Override
-    public void onMovieInfoResult(MovieInfo movieInfo) {
-        for (MovieInfo curMovieInfo : mMoviesInfoList) {
-            if(curMovieInfo.getImdbID().equals(movieInfo.getImdbID())) {
-                curMovieInfo.setPlot(movieInfo.getPlot());
-                curMovieInfo.setActors(movieInfo.getActors());
-                curMovieInfo.setDirector(movieInfo.getDirector());
-                curMovieInfo.setWriter(movieInfo.getWriter());
-                curMovieInfo.setReleased(movieInfo.getReleased());
-                curMovieInfo.setRuntime(movieInfo.getRuntime());
-                curMovieInfo.setGenre(movieInfo.getGenre());
-                curMovieInfo.setMetascore(movieInfo.getMetascore());
-                curMovieInfo.setAwards(movieInfo.getAwards());
-                curMovieInfo.setCountry(movieInfo.getCountry());
+    public void onMovieInfoResult(Movie movie) {
+        for (Movie curMovieInfo : mMoviesList) {
+            if(curMovieInfo.getImdbID().equals(movie.getImdbID())) {
+                curMovieInfo.setPlot(movie.getPlot());
+                curMovieInfo.setActors(movie.getActors());
+                curMovieInfo.setDirector(movie.getDirector());
+                curMovieInfo.setWriter(movie.getWriter());
+                curMovieInfo.setReleased(movie.getReleased());
+                curMovieInfo.setRuntime(movie.getRuntime());
+                curMovieInfo.setGenre(movie.getGenre());
+                curMovieInfo.setMetascore(movie.getMetascore());
+                curMovieInfo.setAwards(movie.getAwards());
+                curMovieInfo.setCountry(movie.getCountry());
                 break;
             }
         }
         notifyDataSetChanged();
     }
 
-    private void shareMessage(MovieInfo movieInfo) {
+    private void shareMessage(Movie movie) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
-
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         intent.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.share_title));
-        intent.putExtra(Intent.EXTRA_TEXT, mContext.getResources().getString(R.string.share_description_title) + ". " + movieInfo.getTitle()
-                + " " + mContext.getResources().getString(R.string.share_description_summary) + " " + movieInfo.getPlot());
+        intent.putExtra(Intent.EXTRA_TEXT, mContext.getResources().getString(R.string.share_description_title) + ". " + movie.getTitle()
+                + " " + mContext.getResources().getString(R.string.share_description_summary) + " " + movie.getPlot());
         mContext.startActivity(intent);
     }
-
-
 }

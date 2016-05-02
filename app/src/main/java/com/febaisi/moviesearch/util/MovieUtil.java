@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 
-import com.febaisi.moviesearch.R;
 import com.febaisi.moviesearch.controller.MovieController;
 import com.febaisi.moviesearch.model.Movie;
-import com.febaisi.moviesearch.model.MovieInfo;
-import com.febaisi.moviesearch.uicontent.MovieInfoActivity;
-import com.squareup.picasso.Picasso;
+import com.febaisi.moviesearch.uicontent.MovieDetailsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,125 +39,110 @@ public class MovieUtil {
         return matrixCursor;
     }
 
-    public static MovieInfo parseJsonMovieInfo(JSONObject jsonObject) throws JSONException {
-        MovieInfo movieInfo = new MovieInfo();
-        movieInfo.setTitle(jsonObject.getString(MovieInfo.TITLE));
-        movieInfo.setYear(jsonObject.getString(MovieInfo.YEAR));
-        movieInfo.setRated(jsonObject.getString(MovieInfo.RATED));
-        movieInfo.setReleased(jsonObject.getString(MovieInfo.RELEASED));
-        movieInfo.setRuntime(jsonObject.getString(MovieInfo.RUNTIME));
-        movieInfo.setGenre(jsonObject.getString(MovieInfo.GENRE));
-        movieInfo.setDirector(jsonObject.getString(MovieInfo.DIRECTOR));
-        movieInfo.setWriter(jsonObject.getString(MovieInfo.WRITER));
-        movieInfo.setActors(jsonObject.getString(MovieInfo.ACTORS));
-        movieInfo.setPlot(jsonObject.getString(MovieInfo.PLOT));
-        movieInfo.setLanguage(jsonObject.getString(MovieInfo.LANGUAGE));
-        movieInfo.setCountry(jsonObject.getString(MovieInfo.COUNTRY));
-        movieInfo.setAwards(jsonObject.getString(MovieInfo.AWARDS));
-        movieInfo.setPoster(jsonObject.getString(MovieInfo.POSTER));
-        movieInfo.setMetascore(jsonObject.getString(MovieInfo.METASCORE));
-        movieInfo.setImdbRating(jsonObject.getString(MovieInfo.IMDB_RATING));
-        movieInfo.setImdbVotes(jsonObject.getString(MovieInfo.IMDB_VOTES));
-        movieInfo.setImdbID(jsonObject.getString(MovieInfo.IMDB_ID));
-        movieInfo.setType(jsonObject.getString(MovieInfo.TYPE));
-        movieInfo.setResponse(jsonObject.getString(MovieInfo.RESPONSE));
-        return movieInfo;
+    public static Movie parseJsonMovieInfo(JSONObject jsonObject) throws JSONException {
+        Movie movie = new Movie();
+        movie.setTitle(jsonObject.getString(Movie.TITLE));
+        movie.setYear(jsonObject.getString(Movie.YEAR));
+        movie.setRated(jsonObject.getString(Movie.RATED));
+        movie.setReleased(jsonObject.getString(Movie.RELEASED));
+        movie.setRuntime(jsonObject.getString(Movie.RUNTIME));
+        movie.setGenre(jsonObject.getString(Movie.GENRE));
+        movie.setDirector(jsonObject.getString(Movie.DIRECTOR));
+        movie.setWriter(jsonObject.getString(Movie.WRITER));
+        movie.setActors(jsonObject.getString(Movie.ACTORS));
+        movie.setPlot(jsonObject.getString(Movie.PLOT));
+        movie.setLanguage(jsonObject.getString(Movie.LANGUAGE));
+        movie.setCountry(jsonObject.getString(Movie.COUNTRY));
+        movie.setAwards(jsonObject.getString(Movie.AWARDS));
+        movie.setPoster(jsonObject.getString(Movie.POSTER));
+        movie.setMetascore(jsonObject.getString(Movie.METASCORE));
+        movie.setImdbRating(jsonObject.getString(Movie.IMDB_RATING));
+        movie.setImdbVotes(jsonObject.getString(Movie.IMDB_VOTES));
+        movie.setImdbID(jsonObject.getString(Movie.IMDB_ID));
+        movie.setType(jsonObject.getString(Movie.TYPE));
+        movie.setResponse(jsonObject.getString(Movie.RESPONSE));
+        return movie;
     }
 
-    public static List<MovieInfo> createMovieInfoList(List<Movie> moviesList) {
-        List<MovieInfo> moviesInfoList = new ArrayList<>();
-        for (Movie movie : moviesList) {
-            MovieInfo movieInfo = new MovieInfo();
-            movieInfo.setTitle(movie.getTitle());
-            movieInfo.setType(movie.getType());
-            movieInfo.setImdbID(movie.getImdbID());
-            movieInfo.setPoster(movie.getPoster());
-            movieInfo.setYear(movie.getYear());
-            moviesInfoList.add(movieInfo);
-        }
-        return moviesInfoList;
-    }
-
-    public static Intent createMovieInfoIntent(Context context, MovieInfo movieInfo, boolean shouldRequest) {
-        Intent intent = new Intent(context.getApplicationContext(), MovieInfoActivity.class);
-        intent.putExtra(MovieInfo.TITLE, movieInfo.getTitle());
-        intent.putExtra(MovieInfo.YEAR, movieInfo.getYear());
-        intent.putExtra(MovieInfo.RATED, movieInfo.getRated());
-        intent.putExtra(MovieInfo.RELEASED, movieInfo.getReleased());
-        intent.putExtra(MovieInfo.RUNTIME, movieInfo.getRuntime());
-        intent.putExtra(MovieInfo.GENRE, movieInfo.getGenre());
-        intent.putExtra(MovieInfo.DIRECTOR, movieInfo.getDirector());
-        intent.putExtra(MovieInfo.WRITER, movieInfo.getWriter());
-        intent.putExtra(MovieInfo.ACTORS, movieInfo.getActors());
-        intent.putExtra(MovieInfo.PLOT, movieInfo.getPlot());
-        intent.putExtra(MovieInfo.LANGUAGE, movieInfo.getLanguage());
-        intent.putExtra(MovieInfo.COUNTRY, movieInfo.getCountry());
-        intent.putExtra(MovieInfo.AWARDS, movieInfo.getAwards());
-        intent.putExtra(MovieInfo.POSTER, movieInfo.getPoster());
-        intent.putExtra(MovieInfo.METASCORE, movieInfo.getMetascore());
-        intent.putExtra(MovieInfo.IMDB_RATING, movieInfo.getImdbRating());
-        intent.putExtra(MovieInfo.IMDB_VOTES, movieInfo.getImdbVotes());
-        intent.putExtra(MovieInfo.IMDB_ID, movieInfo.getImdbID());
-        intent.putExtra(MovieInfo.TYPE, movieInfo.getType());
-        intent.putExtra(MovieInfo.RESPONSE, movieInfo.getResponse());
+    public static Intent createMovieInfoIntent(Context context, Movie movie, boolean shouldRequest) {
+        Intent intent = new Intent(context.getApplicationContext(), MovieDetailsActivity.class);
+        intent.putExtra(Movie.TITLE, movie.getTitle());
+        intent.putExtra(Movie.YEAR, movie.getYear());
+        intent.putExtra(Movie.RATED, movie.getRated());
+        intent.putExtra(Movie.RELEASED, movie.getReleased());
+        intent.putExtra(Movie.RUNTIME, movie.getRuntime());
+        intent.putExtra(Movie.GENRE, movie.getGenre());
+        intent.putExtra(Movie.DIRECTOR, movie.getDirector());
+        intent.putExtra(Movie.WRITER, movie.getWriter());
+        intent.putExtra(Movie.ACTORS, movie.getActors());
+        intent.putExtra(Movie.PLOT, movie.getPlot());
+        intent.putExtra(Movie.LANGUAGE, movie.getCountry());
+        intent.putExtra(Movie.AWARDS, movie.getAwards());
+        intent.putExtra(Movie.POSTER, movie.getPoster());
+        intent.putExtra(Movie.METASCORE, movie.getMetascore());
+        intent.putExtra(Movie.IMDB_RATING, movie.getImdbRating());
+        intent.putExtra(Movie.IMDB_VOTES, movie.getImdbVotes());
+        intent.putExtra(Movie.IMDB_ID, movie.getImdbID());
+        intent.putExtra(Movie.TYPE, movie.getType());
+        intent.putExtra(Movie.RESPONSE, movie.getResponse());
         if (shouldRequest) {
             intent.putExtra(MovieController.REQUEST_MOVIE_INFO, shouldRequest);
         }
         return intent;
     }
 
-    public static MovieInfo createMovieInfoFromCursor(Cursor cursor) {
-        MovieInfo movieInfo = new MovieInfo();
-        movieInfo.setTitle(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[1])));
-        movieInfo.setImdbID(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[2])));
-        movieInfo.setYear(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[3])));
-        movieInfo.setPoster(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[4])));
-        return movieInfo;
+    public static Movie createMovieInfoFromCursor(Cursor cursor) {
+        Movie movie = new Movie();
+        movie.setTitle(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[1])));
+        movie.setImdbID(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[2])));
+        movie.setYear(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[3])));
+        movie.setPoster(cursor.getString(cursor.getColumnIndex(MovieController.COLUMS[4])));
+        return movie;
     }
 
-    public static MovieInfo createMovieInfoFromIntent(Intent intent) {
+    public static Movie createMovieFromIntent(Intent intent) {
 
-        MovieInfo movieInfo = new MovieInfo();
-        if ((intent.hasExtra(MovieInfo.TITLE)) && (intent.getStringExtra(MovieInfo.TITLE) != null)) {
-            movieInfo.setTitle(intent.getStringExtra(MovieInfo.TITLE));
+        Movie movie = new Movie();
+        if ((intent.hasExtra(Movie.TITLE)) && (intent.getStringExtra(Movie.TITLE) != null)) {
+            movie.setTitle(intent.getStringExtra(Movie.TITLE));
         }
-        if ((intent.hasExtra(MovieInfo.IMDB_ID)) && (intent.getStringExtra(MovieInfo.IMDB_ID) != null)) {
-            movieInfo.setImdbID(intent.getStringExtra(MovieInfo.IMDB_ID));
+        if ((intent.hasExtra(Movie.IMDB_ID)) && (intent.getStringExtra(Movie.IMDB_ID) != null)) {
+            movie.setImdbID(intent.getStringExtra(Movie.IMDB_ID));
         }
-        if ((intent.hasExtra(MovieInfo.YEAR)) && (intent.getStringExtra(MovieInfo.YEAR) != null)) {
-            movieInfo.setYear(intent.getStringExtra(MovieInfo.YEAR));
+        if ((intent.hasExtra(Movie.YEAR)) && (intent.getStringExtra(Movie.YEAR) != null)) {
+            movie.setYear(intent.getStringExtra(Movie.YEAR));
         }
-        if ((intent.hasExtra(MovieInfo.PLOT)) && (intent.getStringExtra(MovieInfo.PLOT) != null)) {
-            movieInfo.setPlot(intent.getStringExtra(MovieInfo.PLOT));
+        if ((intent.hasExtra(Movie.PLOT)) && (intent.getStringExtra(Movie.PLOT) != null)) {
+            movie.setPlot(intent.getStringExtra(Movie.PLOT));
         }
-        if ((intent.hasExtra(MovieInfo.POSTER)) && (intent.getStringExtra(MovieInfo.POSTER) != null)) {
-            movieInfo.setPoster(intent.getStringExtra(MovieInfo.POSTER));
+        if ((intent.hasExtra(Movie.POSTER)) && (intent.getStringExtra(Movie.POSTER) != null)) {
+            movie.setPoster(intent.getStringExtra(Movie.POSTER));
         }
-        if ((intent.hasExtra(MovieInfo.ACTORS)) && (intent.getStringExtra(MovieInfo.ACTORS) != null) && !(intent.getStringExtra(MovieInfo.ACTORS).equals("N/A"))) {
-            movieInfo.setActors(intent.getStringExtra(MovieInfo.ACTORS));
+        if ((intent.hasExtra(Movie.ACTORS)) && (intent.getStringExtra(Movie.ACTORS) != null) && !(intent.getStringExtra(Movie.ACTORS).equals("N/A"))) {
+            movie.setActors(intent.getStringExtra(Movie.ACTORS));
         }
-        if ((intent.hasExtra(MovieInfo.DIRECTOR)) && (intent.getStringExtra(MovieInfo.DIRECTOR) != null) && !(intent.getStringExtra(MovieInfo.DIRECTOR).equals("N/A"))) {
-            movieInfo.setDirector(intent.getStringExtra(MovieInfo.DIRECTOR));
+        if ((intent.hasExtra(Movie.DIRECTOR)) && (intent.getStringExtra(Movie.DIRECTOR) != null) && !(intent.getStringExtra(Movie.DIRECTOR).equals("N/A"))) {
+            movie.setDirector(intent.getStringExtra(Movie.DIRECTOR));
         }
-        if ((intent.hasExtra(MovieInfo.WRITER)) && (intent.getStringExtra(MovieInfo.WRITER) != null) && !(intent.getStringExtra(MovieInfo.WRITER).equals("N/A"))) {
-            movieInfo.setWriter(intent.getStringExtra(MovieInfo.WRITER));
+        if ((intent.hasExtra(Movie.WRITER)) && (intent.getStringExtra(Movie.WRITER) != null) && !(intent.getStringExtra(Movie.WRITER).equals("N/A"))) {
+            movie.setWriter(intent.getStringExtra(Movie.WRITER));
         }
-        if ((intent.hasExtra(MovieInfo.RELEASED)) && (intent.getStringExtra(MovieInfo.RELEASED) != null) && !(intent.getStringExtra(MovieInfo.RELEASED).equals("N/A"))) {
-            movieInfo.setReleased(intent.getStringExtra(MovieInfo.RELEASED));
-        }if ((intent.hasExtra(MovieInfo.RUNTIME)) && (intent.getStringExtra(MovieInfo.RUNTIME) != null) && !(intent.getStringExtra(MovieInfo.RUNTIME).equals("N/A"))) {
-            movieInfo.setRuntime(intent.getStringExtra(MovieInfo.RUNTIME));
+        if ((intent.hasExtra(Movie.RELEASED)) && (intent.getStringExtra(Movie.RELEASED) != null) && !(intent.getStringExtra(Movie.RELEASED).equals("N/A"))) {
+            movie.setReleased(intent.getStringExtra(Movie.RELEASED));
+        }if ((intent.hasExtra(Movie.RUNTIME)) && (intent.getStringExtra(Movie.RUNTIME) != null) && !(intent.getStringExtra(Movie.RUNTIME).equals("N/A"))) {
+            movie.setRuntime(intent.getStringExtra(Movie.RUNTIME));
         }
-        if ((intent.hasExtra(MovieInfo.GENRE)) && (intent.getStringExtra(MovieInfo.GENRE) != null) && !(intent.getStringExtra(MovieInfo.GENRE).equals("N/A"))) {
-            movieInfo.setGenre(intent.getStringExtra(MovieInfo.GENRE));
-        }if ((intent.hasExtra(MovieInfo.METASCORE)) && (intent.getStringExtra(MovieInfo.METASCORE) != null) && !(intent.getStringExtra(MovieInfo.METASCORE).equals("N/A"))) {
-            movieInfo.setMetascore(intent.getStringExtra(MovieInfo.METASCORE));
-        }if ((intent.hasExtra(MovieInfo.AWARDS)) && (intent.getStringExtra(MovieInfo.AWARDS) != null) && !(intent.getStringExtra(MovieInfo.AWARDS).equals("N/A"))) {
-            movieInfo.setAwards(intent.getStringExtra(MovieInfo.AWARDS));
+        if ((intent.hasExtra(Movie.GENRE)) && (intent.getStringExtra(Movie.GENRE) != null) && !(intent.getStringExtra(Movie.GENRE).equals("N/A"))) {
+            movie.setGenre(intent.getStringExtra(Movie.GENRE));
+        }if ((intent.hasExtra(Movie.METASCORE)) && (intent.getStringExtra(Movie.METASCORE) != null) && !(intent.getStringExtra(Movie.METASCORE).equals("N/A"))) {
+            movie.setMetascore(intent.getStringExtra(Movie.METASCORE));
+        }if ((intent.hasExtra(Movie.AWARDS)) && (intent.getStringExtra(Movie.AWARDS) != null) && !(intent.getStringExtra(Movie.AWARDS).equals("N/A"))) {
+            movie.setAwards(intent.getStringExtra(Movie.AWARDS));
         }
-        if ((intent.hasExtra(MovieInfo.COUNTRY)) && (intent.getStringExtra(MovieInfo.COUNTRY) != null) && !(intent.getStringExtra(MovieInfo.COUNTRY).equals("N/A"))) {
-            movieInfo.setCountry(intent.getStringExtra(MovieInfo.COUNTRY));
+        if ((intent.hasExtra(Movie.COUNTRY)) && (intent.getStringExtra(Movie.COUNTRY) != null) && !(intent.getStringExtra(Movie.COUNTRY).equals("N/A"))) {
+            movie.setCountry(intent.getStringExtra(Movie.COUNTRY));
         }
-        return movieInfo;
+        return movie;
     }
 
 

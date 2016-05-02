@@ -3,7 +3,6 @@ package com.febaisi.moviesearch.controller;
 import android.content.Context;
 
 import com.febaisi.moviesearch.model.Movie;
-import com.febaisi.moviesearch.model.MovieInfo;
 import com.febaisi.moviesearch.util.MovieUtil;
 
 import org.json.JSONException;
@@ -20,12 +19,6 @@ public class MovieInfoController extends MovieController {
 
     // Request movie info interface
     private ResultMovieInfoSearchListener mResultMovieInfoSearchListener;
-    public interface ResultMovieInfoSearchListener {
-        void onMovieInfoResult(MovieInfo movieInfo);
-    }
-    public void setResultMovieInfoSearchListener(ResultMovieInfoSearchListener resultMovieInfoSearchListener) {
-        this.mResultMovieInfoSearchListener = resultMovieInfoSearchListener;
-    }
 
     public void retrieveMovieInfo(String imdbId) {
         retrieveUrl("http://www.omdbapi.com/?i=" + imdbId, false);
@@ -35,14 +28,22 @@ public class MovieInfoController extends MovieController {
     public void onResponse(Object objResponse) {
         try {
             JSONObject jsonObject = (JSONObject) objResponse;
-            MovieInfo movieInfo = MovieUtil.parseJsonMovieInfo(jsonObject);
+            Movie movie = MovieUtil.parseJsonMovieInfo(jsonObject);
+
             if (mResultMovieInfoSearchListener != null) {
-                mResultMovieInfoSearchListener.onMovieInfoResult(movieInfo);
+                mResultMovieInfoSearchListener.onMovieInfoResult(movie);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
+    //settings interface & listeners
+    public interface ResultMovieInfoSearchListener {
+        void onMovieInfoResult(Movie movie);
+    }
+    public void setResultMovieInfoSearchListener(ResultMovieInfoSearchListener resultMovieInfoSearchListener) {
+        this.mResultMovieInfoSearchListener = resultMovieInfoSearchListener;
+    }
 }
