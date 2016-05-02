@@ -1,10 +1,15 @@
 package com.febaisi.moviesearch.model;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by felipebaisi on 4/27/16.
  */
-public class Movie {
+public class Movie implements Serializable {
 
+    public static String MOVIE = "MOVIE";
     public static String TITLE = "Title";
     public static String YEAR  = "Year";
     public static String IMDB_ID  = "imdbID";

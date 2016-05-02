@@ -83,7 +83,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements AppBarLay
     }
 
     private void handleIntent(Intent intent) {
-        Movie movie = MovieUtil.createMovieFromIntent(intent);
+        Movie movie = (Movie) intent.getSerializableExtra(Movie.MOVIE);
         headerTopTitle.setText(movie.getTitle());
         headerTopYear.setText(movie.getYear());
         floatHeaderView.bindTo(movie.getTitle(), movie.getYear());

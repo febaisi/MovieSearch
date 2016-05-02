@@ -23,6 +23,7 @@ import android.view.MenuItem;
 
 import com.febaisi.moviesearch.controller.MovieController;
 import com.febaisi.moviesearch.model.Movie;
+import com.febaisi.moviesearch.uicontent.MovieDetailsActivity;
 import com.febaisi.moviesearch.uicontent.ResultMovieTitleContentFragment;
 import com.febaisi.moviesearch.uicontent.SearchContentFragment;
 import com.febaisi.moviesearch.util.MovieUtil;
@@ -147,8 +148,7 @@ public class MainActivity extends AppCompatActivity
             mSuggestionCursor.moveToFirst();
             while (mSuggestionCursor.isAfterLast() == false) {
                 if (mSuggestionCursor.getString(mSuggestionCursor.getColumnIndex(MovieController.COLUMS[0])).equals(Integer.toString(position))) {
-                    Intent intent = MovieUtil.createMovieInfoIntent(this, MovieUtil.createMovieInfoFromCursor(mSuggestionCursor), true);
-                    startActivity(intent);
+                    startActivity(MovieUtil.createMovieInfoIntent(this,MovieUtil.createMovieInfoFromCursor(mSuggestionCursor), true ));
                     break;
                 }
                 mSuggestionCursor.moveToNext();
