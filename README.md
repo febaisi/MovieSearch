@@ -32,7 +32,10 @@ Project content - Movie details provided by http://www.omdbapi.com API. <br> <br
 <br>
 
 ### Next features  <br>
-RecyclerView and Activity Transactions Animations
+Material Design Items.
+- RecyclerView animation. 
+- Meaningful Transitions animations between activities. 
+
 
 
 
