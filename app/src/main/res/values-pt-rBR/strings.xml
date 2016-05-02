@@ -9,4 +9,7 @@
     <string name="search_hint"> Buscar</string>
     <string name="details">DETALHES</string>
     <string name="summary">Sinopse:</string>
+    <string name="share_title">MovieSearch: Busca de filmes!</string>
+    <string name="share_description_title">Título:</string>
+    <string name="share_description_summary">Descrição:</string>
 </resources>

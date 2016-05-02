@@ -1,11 +1,13 @@
 package com.febaisi.moviesearch.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.febaisi.moviesearch.R;
@@ -31,12 +33,14 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public CardView mCustomCardView;
         public TextView mPlotTextView;
         public SelectableRoundedImageView mSelectableRoundedImageView;
+        public ImageView mShareImageView;
         public ViewHolder(View v) {
             super(v);
             mTitleTextView = (CustomTextView) v.findViewById(R.id.movie_title);
             mPlotTextView = (TextView) v.findViewById(R.id.movie_plot);
             mCustomCardView = (CardView) v.findViewById(R.id.cardView);
             mSelectableRoundedImageView = (SelectableRoundedImageView) v.findViewById(R.id.movie_poster);
+            mShareImageView = (ImageView) v.findViewById(R.id.share_image);
         }
     }
 
@@ -71,6 +75,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             @Override
             public void onClick(View v) {
                 mContext.startActivity(MovieUtil.createMovieInfoIntent(mContext, mMoviesInfoList.get(position), false));
+            }
+        });
+        holder.mShareImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareMessage(mMoviesInfoList.get(position));
             }
         });
     }
@@ -109,6 +119,17 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             }
         }
         notifyDataSetChanged();
+    }
+
+    private void shareMessage(MovieInfo movieInfo) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        intent.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.share_title));
+        intent.putExtra(Intent.EXTRA_TEXT, mContext.getResources().getString(R.string.share_description_title) + ". " + movieInfo.getTitle()
+                + " " + mContext.getResources().getString(R.string.share_description_summary) + " " + movieInfo.getPlot());
+        mContext.startActivity(intent);
     }
 
 

@@ -12,4 +12,7 @@
     <string name="summary">Summary:</string>
     <string name="summary_example">After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.</string>
     <string name="group_example">Albert Brooks, Ellen DeGeneres, Alexander Gould, Willem Dafoe</string>
+    <string name="share_title">MovieSearch: Take a look at this movie</string>
+    <string name="share_description_title">Title:</string>
+    <string name="share_description_summary">Summary:</string>
 </resources>

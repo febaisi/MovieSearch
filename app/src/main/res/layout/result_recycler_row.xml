@@ -106,6 +106,7 @@
                 android:layout_centerVertical="true"/>
 
                 <ImageView
+                    android:id="@+id/share_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_share_black_24dp"
