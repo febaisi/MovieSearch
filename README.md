@@ -29,6 +29,11 @@ Project content - Movie details provided by http://www.omdbapi.com API. <br> <br
 [.....DynamicCollapsingToolbarLayout.......] <br>
 ![CollapsingToolbarLayout](https://i.imgur.com/TOTBoeQ.gif)  
   
+<br>
+
+### Next features  <br>
+RecyclerView and Activity Transactions Animations
+
 
 
 
