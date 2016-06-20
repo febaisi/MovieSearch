@@ -1,7 +1,7 @@
 MovieSearch Project
 =============================================================================
 
-This project intends to cover some material design components and public librarys. 
+This project intends to cover some material design components and public libraries. 
 
 <br>
 Items covered: <br>
